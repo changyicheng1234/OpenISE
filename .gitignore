@@ -83,7 +83,6 @@ desktop.ini
 *.weights
 
 # 数据文件
-*.csv
 *.xlsx
 *.xls
 *.db
