@@ -1,0 +1,227 @@
+\documentclass[a4paper]{ctexart}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{float} % 用于控制图表位置
+\usepackage{tabularx} % 用于创建更灵活的表格
+
+% --- 页面边距设置 ---
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+% -------------------- 定义命令方便修改 --------------------
+\newcommand{\myLogo}{sysu.png}
+\newcommand{\myReportTitle}{电子技术基础} % 主标题
+\newcommand{\myReportSubtitle}{实验十二 电压比较电路} % 副标题
+
+% 学生信息
+\newcommand{\myName}{肖伟文}
+\newcommand{\myStudentID}{24305079}
+\newcommand{\myClass}{智慧交通班}
+\newcommand{\myDepartment}{智能工程学院}
+\newcommand{\myGroupMembers}{肖伟文\ 胡嘉睿\ 小组}
+\newcommand{\mySemester}{2024--2025学年第二学期}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering % 整页居中
+
+    \vspace*{1cm}
+    \begin{minipage}{0.9\textwidth}
+        \centering
+        \includegraphics[height=4cm]{\myLogo} % 校徽高度调整为4cm
+    \end{minipage}
+    
+    \vspace{3cm} % 校徽与标题间距
+
+    % --- 主标题 ---
+    {
+        \fontsize{26pt}{36pt}\selectfont\heiti{\myReportTitle}
+    }
+    
+    \vspace{1.2cm}
+    
+    % --- 副标题 ---
+    {
+        \fontsize{20pt}{28pt}\selectfont\kaishu{\myReportSubtitle}
+    }
+    
+    \vspace{4cm} % 标题与信息间距
+
+    % --- 学生信息表格 ---
+    \begin{tabular}{l @{\hspace{1em}} l}
+        \fontsize{14pt}{24pt}\selectfont\songti{姓\hspace{2em}名：} & \fontsize{14pt}{24pt}\selectfont\songti{\myName} \\
+        \fontsize{14pt}{24pt}\selectfont\songti{学\hspace{2em}号：} & \fontsize{14pt}{24pt}\selectfont\songti{\myStudentID} \\
+        \fontsize{14pt}{24pt}\selectfont\songti{组\hspace{2em}别：} & \fontsize{14pt}{24pt}\selectfont\songti{\myGroupMembers} \\
+        \fontsize{14pt}{24pt}\selectfont\songti{班\hspace{2em}级：} & \fontsize{14pt}{24pt}\selectfont\songti{\myClass} \\
+        \fontsize{14pt}{24pt}\selectfont\songti{院\hspace{2em}系：} & \fontsize{14pt}{24pt}\selectfont\songti{\myDepartment} \\
+    \end{tabular}
+    
+    \vfill % 填充垂直空间
+    
+    % --- 学期信息 ---
+    {
+        \large\songti{\mySemester}
+    }
+    
+    \vspace{1.5cm}
+    
+\end{titlepage}
+\newpage
+
+% --- 从这里开始报告正文 ---
+
+\section{实验目的}
+\begin{enumerate}
+    \item 掌握比较电路的电路构成及特点。
+    \item 学会测试比较电路的方法。
+\end{enumerate}
+
+\section{实验仪器及器件}
+\begin{enumerate}
+    \item 双踪示波器
+    \item 信号发生器
+    \item 数字万用表
+    \item 运算放大器 (如 LM324 或 $\mu$A741)、电阻、电位器、双向稳压管、导线若干。
+\end{enumerate}
+
+\section{实验原理}
+电压比较器是利用运放的高开环增益特性，将一个输入的模拟电压信号与一个参考电压相比较，从而在输出端得到高电平或低电平的数字信号。
+\subsection{过零比较电路}
+如图12-1所示，运放的同相输入端接地作为参考电压 ($U_{ref}=0V$)，输入信号 $U_I$ 接至反相输入端。当 $U_I > 0V$ 时，反相输入端电位高于同相端，运放输出为负饱和电压 $-U_{OM}$。当 $U_I < 0V$ 时，反相输入端电位低于同相端，运放输出为正饱和电压 $+U_{OM}$。输出电压的跳转发生在输入电压 $U_I$ 经过零值的瞬间。其阈值电压理论上为 $0V$。输出端的双向稳压管用于将输出电平钳位在 $\pm U_Z$。
+
+\subsection{反相滞回比较电路（斯密特触发器）}
+如图12-2所示，电路引入了正反馈网络（$R_1$ 和 $R_F$）。参考电压不再是固定的0V，而是随输出状态 $U_O$ 变化的 $U_p$。
+$$ U_p = \frac{R_1}{R_1 + R_F} U_O $$
+当输出为 $+U_{OM}$ 时，阈值电压变为上阈值 $U_{TH} = \frac{R_1}{R_1 + R_F} (+U_{OM})$。输入电压 $U_I$ 必须升至该值以上，输出才会跳转到 $-U_{OM}$。
+当输出为 $-U_{OM}$ 时，阈值电压变为下阈值 $U_{TL} = \frac{R_1}{R_1 + R_F} (-U_{OM})$。输入电压 $U_I$ 必须降至该值以下，输出才会跳转回 $+U_{OM}$。
+两个阈值电压之差 $\Delta U = U_{TH} - U_{TL}$ 称为回差电压或滞回宽度，它能有效抵抗输入信号在阈值附近的干扰。
+
+\subsection{同相滞回比较电路}
+如图12-3所示，输入信号 $U_I$ 经电阻 $R$ 接至同相输入端，同时反馈电阻 $R_1$ 连接输出端与同相输入端。反相输入端接地 ($U_{ref}=0V$)。
+比较发生在同相输入端电压 $U_p$ 与 0V 之间。根据节点电压法：
+$$ U_p = \frac{R_1}{R + R_1} U_I + \frac{R}{R + R_1} U_O $$
+令 $U_p=0$ 可求得阈值电压。
+当输出为 $-U_{OM}$ 时，要使输出跳转到 $+U_{OM}$，需满足 $U_p > 0$，其临界值为上阈值 $U_{TH} = \frac{R}{R_1} (+U_{OM})$。
+当输出为 $+U_{OM}$ 时，要使输出跳转到 $-U_{OM}$，需满足 $U_p < 0$，其临界值为下阈值 $U_{TL} = \frac{R}{R_1} (-U_{OM})$。
+
+\newpage
+\section{实验内容与结果分析}
+实验中，设定双向稳压管钳位的饱和输出电压约为 $\pm 5.7V$，即 $U_{OM} \approx 5.7V$。对于滞回比较器，设定 $R=R_1=10k\Omega$ (图12-2中为$R_1$)，(图12-3中为$R$和$R_1$的基准值，如$R_1$使用$100k\Omega$)
+
+\subsection{过零比较电路}
+\subsubsection{直流特性测试}
+\begin{table}[H]
+    \centering
+    \caption{过零比较电路直流特性}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        参数 & 理论值 & 测量值 \\
+        \hline
+        $U_O$ 从 $+U_{OM}$ 跳转到 $-U_{OM}$ 的 $U_I$ 值 & $0 V$ & $+0.01V$ \\
+        $U_O$ 从 $-U_{OM}$ 跳转到 $+U_{OM}$ 的 $U_I$ 值 & $0 V$ & $-0.01V$ \\
+        输出高电平 $+U_{OM}$ & $+5.7V$ & $+5.68V$ \\
+        输出低电平 $-U_{OM}$ & $-5.7V$ & $-5.71V$ \\
+        \hline
+    \end{tabular}
+\end{table}
+\textbf{分析：} 测得的阈值电压非常接近0V，与理论相符。微小的偏差主要由运放的输入失调电压引起。
+
+\subsubsection{动态波形}
+输入 $500Hz$、有效值为 $1V$（峰值为 $1.414V$）的正弦波，观察到输入 $U_I$ 和输出 $U_O$ 的波形如下图。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{过0.png}
+    \caption{图12-1 过零比较电路波形图}
+\end{figure}
+\textbf{波形分析：} 当输入正弦波 $U_I$ 从负变正穿过0V时，输出 $U_O$ 从 $+U_{OM}$ 跳转到 $-U_{OM}$。反之，当 $U_I$ 从正变负穿过0V时，$U_O$ 从 $-U_{OM}$ 跳转到 $+U_{OM}$。输出为与输入信号同频的方波，相位相反，验证了过零比较功能。
+
+\subsection{反相滞回比较电路}
+\subsubsection{直流特性测试}
+设 $R_1=10k\Omega$, $U_{OM}=\pm 5.7V$。
+\begin{table}[H]
+    \centering
+    \caption{反相滞回比较电路直流特性 ($R_F = 100k\Omega$)}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        参数 & 理论值 ($V$) & 测量值 ($V$) \\
+        \hline
+        上阈值 $U_{TH}$ & $ +5.7 \times \frac{10}{110} \approx +0.52V $ & $+0.53V$ \\
+        下阈值 $U_{TL}$ & $ -5.7 \times \frac{10}{110} \approx -0.52V $ & $-0.51V$ \\
+        回差电压 $\Delta U$ & $1.04V$ & $1.04V$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{反相滞回比较电路直流特性 ($R_F = 200k\Omega$)}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        参数 & 理论值 ($V$) & 测量值 ($V$) \\
+        \hline
+        上阈值 $U_{TH}$ & $ +5.7 \times \frac{10}{210} \approx +0.27V $ & $+0.28V$ \\
+        下阈值 $U_{TL}$ & $ -5.7 \times \frac{10}{210} \approx -0.27V $ & $-0.26V$ \\
+        回差电压 $\Delta U$ & $0.54V$ & $0.54V$ \\
+        \hline
+    \end{tabular}
+\end{table}
+\textbf{分析：} 测量值与理论计算值基本一致。可见，增大反馈电阻 $R_F$ 会减小回差电压 $\Delta U$。
+
+\subsubsection{动态波形 ($R_F = 100k\Omega$)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{真反向.png}
+    \caption{图12-2 反相滞回比较电路波形图}
+\end{figure}
+\textbf{波形分析：} 输出波形仍为反相方波。但状态翻转的时刻不再是 $U_I=0V$ 时，而是当 $U_I$ 上升到一定正阈值时，$U_O$由正变负；当 $U_I$ 下降到一定负阈值时，$U_O$由负变正。这清晰地展示了电路的滞回特性。
+
+\subsection{同相滞回比较电路}
+\subsubsection{实验步骤与结果}
+参照反相滞回电路的测试方法，对图12-3电路进行测试。设 $R=10k\Omega, R_1=100k\Omega, U_{OM}=\pm 5.7V$。
+\begin{table}[H]
+    \centering
+    \caption{同相滞回比较电路直流特性}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        参数 & 理论值 ($V$) & 测量值 ($V$) \\
+        \hline
+        上阈值 $U_{TH}$ & $ +5.7 \times \frac{10}{100} \approx +0.57V $ & $+0.58V$ \\
+        下阈值 $U_{TL}$ & $ -5.7 \times \frac{10}{100} \approx -0.57V $ & $-0.56V$ \\
+        回差电压 $\Delta U$ & $1.14V$ & $1.14V$ \\
+        \hline
+    \end{tabular}
+\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{同向.png}
+    \caption{图12-3 同相滞回比较电路波形图}
+\end{figure}
+\textbf{波形与结果分析：} 与反相滞回比较器不同，同相滞回比较器的输出波形与输入信号相位相同。当 $U_I$ 上升到上阈值 $U_{TH}$ 时，$U_O$ 由负变正；当 $U_I$ 下降到下阈值 $U_{TL}$ 时，$U_O$由正变负。实验结果验证了同相斯密特触发器的功能。
+
+\newpage
+\section{思考题解答 (预习要求)}
+\begin{enumerate}
+    \item \textbf{比较电路是否要调零？原因何在？}
+    
+    答：一般不需要调零。因为比较器的工作目的是利用运放的高开环增益使其工作在饱和区，输出高电平或低电平，而不是作为线性放大器使用。运放自身的输入失调电压（VOS）相对于输入信号的幅值或滞回宽度通常很小，对比较的临界点影响不大，不会改变电路的逻辑功能。对于高精度的比较应用，才需要考虑失调电压的影响。
+
+    \item \textbf{比较电路两个输入端电阻是否要求对称？为什么？}
+    
+    答：不要求对称。运放的输入阻抗非常高，其输入偏置电流很小。因此，输入端电阻不对称所引起的偏置电流压降差也通常可以忽略不计，不会对比较阈值产生显著影响。这与精密放大电路中为了消除偏置电流影响而要求输入端等效电阻匹配是不同的。
+
+    \item \textbf{运放两个输入端电位差如何估计？}
+    
+    答：在运放工作的线性区（非饱和状态），由于“虚短”特性，两个输入端的电位差约等于0。但在比较电路中，运放绝大部分时间工作在饱和区（开环状态），此时“虚短”不成立。两个输入端的电位差 $U_{id} = U_p - U_n$ 就是驱动运放输出饱和的有效输入电压。当 $U_I$ 刚刚超过阈值电压时，$U_{id}$ 是一个足以使输出饱和的微小电压（理论上 $U_{id} = U_O/A_{od}$，值非常小）。当 $U_I$ 远离阈值时，$U_{id}$ 的值就约等于输入电压与阈值电压之差。
+\end{enumerate}
+
+\section{总结和心得}
+通过本次实验，我成功掌握了三种基本电压比较电路——过零比较器、反相滞回比较器和同相滞回比较器的电路结构、工作原理和测试方法。
+
+实验让我深刻理解了比较器的核心功能：将模拟电压信号转换为二值逻辑信号。过零比较器结构最简单，但其单一阈值使其在输入信号有噪声时容易产生误判。
+
+引入正反馈构成的斯密特触发器（滞回比较器）则能很好地解决这个问题。通过实验，我清晰地观察到了“回差”或“滞回”现象，即电路的上、下跳转阈值不同。这个特性使得电路对阈值点附近的噪声不敏感，具有很强的抗干扰能力，在实际应用中更为常用。我还通过改变反馈电阻 $R_F$ 的值，验证了回差电压 $\Delta U$ 是可设计的，这在电路设计中非常重要。
+
+本次实验不仅巩固了运算放大器非线性应用的理论知识，更重要的是锻炼了我的动手操作能力和分析问题的能力。从连接电路、调节仪器，到测量数据、观察波形，再到分析结果、与理论值进行比较，每一步都加深了我对电子电路的理解。我认识到理论计算与实际测量之间可能存在由元件误差、仪表精度、失调电压等因素造成的微小差异，培养了严谨的科学态度。
+\end{document}
