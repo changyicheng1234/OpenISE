@@ -1,5 +1,10 @@
 # 信号与系统
 
+![](https://img.shields.io/badge/考试课-red)![](https://img.shields.io/badge/2学分-red)
+
+![平时分](https://img.shields.io/badge/平时分-30%25-brightgreen)![期末考试](https://img.shields.io/badge/期中小测-10%25-brightgreen)![期末考试](https://img.shields.io/badge/期末成绩-60%25-brightgreen)
+
+
 ## 复习策略
 
 ### 课程信息
@@ -31,6 +36,10 @@
 - 2学分，不用太难受
 - 很多人1-2小时就交卷，90多分
 - 不要被老师吓到，实际很简单
+
+
+
+26年秋季学期考试还是有难度的，需要真正理解，100人班可能有10人期末不满60，但是优秀率也有30%。
 
 ## 资料介绍
 

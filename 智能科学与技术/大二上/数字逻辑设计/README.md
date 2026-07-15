@@ -1,4 +1,9 @@
-# 数字逻辑
+# 数字逻辑设计
+
+![](https://img.shields.io/badge/考试课-red)![](https://img.shields.io/badge/2学分-red)
+
+![平时分](https://img.shields.io/badge/平时分-40%25-brightgreen)![期末考试](https://img.shields.io/badge/期末成绩-60%25-brightgreen)
+
 
 ## 复习策略
 
@@ -29,7 +34,7 @@
 - 量不少，需要多花时间
 
 #### 5. 实验课
-- 实验单独1学分，也要考试
+- 实验单独1学分，也要考试（26年秋季学期好像没有实验了）
 - 把理论复习好，实验就好复习
 - 实验不用太费心，1学分差距不大（80多和90多差不了多少）
 

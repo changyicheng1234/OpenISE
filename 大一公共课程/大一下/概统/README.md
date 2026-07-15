@@ -1,8 +1,12 @@
 # 概率统计
 
-## 选课建议
+![](https://img.shields.io/badge/考试课-red)![](https://img.shields.io/badge/3学分-red)
 
-（欢迎补充）
+![平时分](https://img.shields.io/badge/平时分-40%25-brightgreen)![期末考试](https://img.shields.io/badge/期末成绩-60%25-brightgreen)
+
+## 课程内容
+
+25年春季学期，涉及统计概率的内容，比如概率分布，大数定律，贝叶斯定理等，25年也是出的比往届难。区分度较大，有必要认真看看。
 
 ## 资料介绍
 

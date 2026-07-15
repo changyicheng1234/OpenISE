@@ -1,14 +1,18 @@
 # 人工智能编程语言
 
+![](https://img.shields.io/badge/考试课-red)![](https://img.shields.io/badge/3学分-red)
+
+![平时分](https://img.shields.io/badge/平时成绩-10%25-brightgreen)![期末考试](https://img.shields.io/badge/考核题目-50%25-brightgreen)![期末考试](https://img.shields.io/badge/课程设计-40%25-brightgreen)
+
+
 ## 课程信息
-- **授课教师**：金枝，王帅
 - **学分**：3学分
 - **考核方式**：大作业
 - **特点**：Python 与 MATLAB，考核简单
 
-## 选课建议
+24年春季学期，主要成绩由10%平时成绩，50%考核作业（由大作业和每周作业组成）以及最后的课程设计组成。作业难度设置的比较合理，是一个逐级上升的梯度，但是完成时间有点紧，有两个大作业都是在期末月布置的。
 
-（欢迎补充）
+课程主要内容包含了Python语言和MATLAB语言，讲授了Python和MATLAB的基础语法，基础数据结构，选择循环语句，函数。Python部分多讲了文件操作，第三方库（如绘图库）和一部分面向对象编程。Matlab 语言大二有很多课会要求用其完成作业。
 
 ## 资料介绍
 

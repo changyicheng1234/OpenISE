@@ -1,10 +1,15 @@
 # 电路理论基础实验
 
+![](https://img.shields.io/badge/考试课-red)![](https://img.shields.io/badge/1学分-red)
+
+![平时分](https://img.shields.io/badge/平时分-40%25-brightgreen)![期末考试](https://img.shields.io/badge/期末成绩-60%25-brightgreen)
+
 ## 课程信息
-- **授课教师**：韩瑜
 - **学分**：1学分
 - **考核方式**：大作业
 - **特点**：需要电路知识作为基础，考核简单
+
+分为平时交的实验报告和期末的闭卷考核，期末闭卷考试给了简单的指示最后上交手写报告，所考的内容是之前做过的实验，给了word模板。
 
 ## 复习策略
 

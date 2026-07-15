@@ -1,5 +1,10 @@
 # 微机原理
 
+![](https://img.shields.io/badge/考试课-red)![](https://img.shields.io/badge/2.5学分-red)
+
+![期末考试](https://img.shields.io/badge/课堂考勤-10%25-brightgreen)![平时分](https://img.shields.io/badge/平时分-30%25-brightgreen)![期末考试](https://img.shields.io/badge/期末成绩-60%25-brightgreen)
+
+
 ## 复习策略
 
 ### 课程信息
@@ -7,6 +12,7 @@
 - **学分**：2.5学分
 - **特点**：很多人觉得难，但懂了之后很简单
 - **挂科风险**：不复习真的会挂科
+- 涉及计算机组成原理的部分内容，包括数字的位表示，CPU 的组成，代码运行方式，汇编代码等。
 
 ### 复习策略
 

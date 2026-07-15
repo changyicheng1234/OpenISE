@@ -1,5 +1,10 @@
 # 马克思主义基本原理
 
+![](https://img.shields.io/badge/考试课-red)![](https://img.shields.io/badge/3学分-red)
+
+![平时分](https://img.shields.io/badge/平时分-50%25-brightgreen)![期末考试](https://img.shields.io/badge/期末成绩-50%25-brightgreen)
+
+
 ## 复习策略
 
 ### 课程信息
