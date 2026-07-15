@@ -410,6 +410,15 @@ CUSTOM_CSS = """@media (min-width: 768px) {
     display: flex !important;
   }
 }
+
+/* Shields badges are inline labels, not standalone content images. */
+.content img[src*="img.shields.io/"] {
+  display: inline-block;
+  width: auto;
+  margin: 0 0.25rem 0 0;
+  border-radius: 0;
+  vertical-align: middle;
+}
 """
 DOC_LIST_TEMPLATE = """{{ define "main" }}
   <div class='hx:mx-auto hx:flex hextra-max-page-width'>
