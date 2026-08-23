@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card main-card animate-slideInUp">
+        <div class="feature-intro">
+            <div class="feature-icon-wrapper">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <h2>三餐分析</h2>
+            <p class="intro-text">
+                输入您的一日三餐内容，我们将为您提供专业的营养分析和改善建议。
+                通过详细分析每餐的营养构成，帮助您了解饮食是否均衡，并针对性地提供改进方案。
+            </p>
+        </div>
+        <form id="analyzeForm" class="styled-form">
+            <div class="form-group">
+                <label for="breakfast">早餐内容</label>
+                <div class="input-with-icon textarea-icon">
+                    <i class="fas fa-coffee"></i>
+                    <textarea id="breakfast" required placeholder="请输入早餐内容，尽量详细描述用量"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lunch">午餐内容</label>
+                <div class="input-with-icon textarea-icon">
+                    <i class="fas fa-hamburger"></i>
+                    <textarea id="lunch" required placeholder="请输入午餐内容，尽量详细描述用量"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dinner">晚餐内容</label>
+                <div class="input-with-icon textarea-icon">
+                    <i class="fas fa-utensils"></i>
+                    <textarea id="dinner" required placeholder="请输入晚餐内容，尽量详细描述用量"></textarea>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary btn-animated">
+                    <i class="fas fa-microscope"></i> 分析营养
+                </button>
+            </div>
+        </form>
+        
+        <!-- 添加加载动画 -->
+        <div class="loading-container" id="loadingSpinner">
+            <div class="loader loader-lg"></div>
+            <p class="loading-text">正在分析营养成分...</p>
+        </div>
+    </div>
+    
+    <div id="analyzeResult" class="result-container animate-fadeIn" style="display: none;">
+        <div class="nutrition-summary-card animate-slideInUp">
+            <div class="summary-content" id="nutritionSummary">
+                <!-- 营养摄入总览将在JS中生成 -->
+            </div>
+        </div>
+          <div class="meal-analysis-grid">
+            <div class="meal-card animate-slideInUp delay-100">
+                <div class="meal-card-header">
+                    <div class="meal-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <h3>早餐分析</h3>
+                </div>
+                <div class="meal-card-content" id="breakfastAnalysis"></div>
+            </div>
+            
+            <div class="meal-card animate-slideInUp delay-200">
+                <div class="meal-card-header">
+                    <div class="meal-icon">
+                        <i class="fas fa-hamburger"></i>
+                    </div>
+                    <h3>午餐分析</h3>
+                </div>
+                <div class="meal-card-content" id="lunchAnalysis"></div>
+            </div>
+            
+            <div class="meal-card animate-slideInUp delay-300">
+                <div class="meal-card-header">
+                    <div class="meal-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>晚餐分析</h3>
+                </div>
+                <div class="meal-card-content" id="dinnerAnalysis"></div>
+            </div>
+        </div>
+        
+        <div class="nutrition-advice-card animate-slideInUp delay-400">
+            <div class="advice-card-header">
+                <i class="fas fa-lightbulb"></i>
+                <h3>营养建议</h3>
+            </div>
+            <div class="advice-card-content" id="nutritionAdvice"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('analyzeForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const resultDiv = document.getElementById('analyzeResult');
+    
+    try {
+        form.style.opacity = '0.5';
+        loadingSpinner.style.display = 'flex';
+        resultDiv.style.display = 'none';
+        
+        const response = await fetch('/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                meals: {
+                    breakfast: document.getElementById('breakfast').value.trim(),
+                    lunch: document.getElementById('lunch').value.trim(),
+                    dinner: document.getElementById('dinner').value.trim()
+                }
+            })
+        });
+
+        const result = await response.json();
+        console.log('分析结果:', result);  // 调试日志
+        
+        // 更新分析结果显示
+        function updateAnalysis(elementId, content) {
+            const element = document.getElementById(elementId);
+            if (!content || content === '暂无分析数据' || content === '分析失败，请重试') {
+                element.innerHTML = `<p class="analysis-content warning">${content || '暂无数据'}</p>`;
+            } else {
+                // 将内容按句号分割并处理
+                const sentences = content.split(/[。！？]/).filter(s => s.trim());
+                element.innerHTML = sentences
+                    .map(s => `<p class="analysis-content">${s.trim()}。</p>`)
+                    .join('');
+            }
+        }        updateAnalysis('breakfastAnalysis', result['早餐分析']);
+        updateAnalysis('lunchAnalysis', result['午餐分析']);
+        updateAnalysis('dinnerAnalysis', result['晚餐分析']);
+        updateAnalysis('nutritionAdvice', result['营养建议']);
+        
+        // 生成营养总览摘要
+        updateNutritionSummary(result);
+
+        // 显示结果区域
+        resultDiv.style.display = 'block';
+        
+        // 平滑滚动到结果
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // 恢复表单样式
+        form.style.opacity = '1';
+        loadingSpinner.style.display = 'none';
+        
+        // 添加动画触发
+        setTimeout(() => {
+            const animElements = document.querySelectorAll('.animate-slideInUp, .animate-fadeIn');
+            animElements.forEach(el => {
+                el.classList.add('active');
+            });
+        }, 100);
+        
+    } catch (error) {
+        console.error('分析失败:', error);
+        document.getElementById('nutritionSummary').innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>分析失败，请稍后重试</p>
+            </div>
+        `;        loadingSpinner.style.display = 'none';
+        form.style.opacity = '1';
+    }
+});
+
+// 更新营养总览的函数
+function updateNutritionSummary(result) {
+    const summaryElement = document.getElementById('nutritionSummary');
+    
+    // 解析整体评分
+    let score = 5; // 默认评分
+    if (result['整体评分']) {
+        const scoreMatch = result['整体评分'].toString().match(/\d+/);
+        score = scoreMatch ? parseInt(scoreMatch[0]) : 5;
+    }
+    
+    // 计算评分角度 (满分10分转换为360度)
+    const scoreAngle = (score / 10) * 360;
+    
+    // 确定评分等级和颜色
+    let scoreLevel, scoreColor, scoreClass;
+    if (score >= 8) {
+        scoreLevel = '优秀';
+        scoreColor = '#4CAF50';  // 使用页面主绿色
+        scoreClass = 'excellent';
+    } else if (score >= 6) {
+        scoreLevel = '良好';
+        scoreColor = '#2196F3';  // 使用页面蓝色
+        scoreClass = 'good';
+    } else if (score >= 4) {
+        scoreLevel = '一般';
+        scoreColor = '#FF9800';  // 使用页面橙色
+        scoreClass = 'average';
+    } else {
+        scoreLevel = '需改善';
+        scoreColor = '#F44336';  // 使用页面红色
+        scoreClass = 'poor';
+    }
+    
+    // 处理营养数据，提取数值
+    function extractNutrientValue(value, unit = '') {
+        if (!value) return `暂无数据`;
+        
+        // 转换为字符串进行处理
+        const valueStr = value.toString();
+        
+        // 尝试提取数字，支持多种格式
+        const patterns = [
+            /(\d+(?:\.\d+)?)\s*千卡/i,     // 匹配 "1800千卡" 格式
+            /(\d+(?:\.\d+)?)\s*kcal/i,     // 匹配 "1800kcal" 格式
+            /(\d+(?:\.\d+)?)\s*克/i,       // 匹配 "50克" 格式
+            /(\d+(?:\.\d+)?)\s*g/i,        // 匹配 "50g" 格式
+            /(\d+(?:\.\d+)?)/               // 匹配纯数字
+        ];
+        
+        for (const pattern of patterns) {
+            const match = valueStr.match(pattern);
+            if (match) {
+                const num = parseFloat(match[1]);
+                return `${num}${unit}`;
+            }
+        }
+        
+        // 如果没有找到数字，返回简化的描述
+        if (valueStr.includes('暂无') || valueStr.includes('无法') || valueStr.includes('未提供')) {
+            return '暂无数据';
+        }
+        
+        // 如果包含描述性文字，尝试提取关键信息
+        if (valueStr.length > 20) {
+            return '待分析';
+        }
+        
+        return valueStr;
+    }
+    
+    // 特殊处理不同营养素的数据
+    function formatNutrientData(value, type) {
+        if (!value) return '暂无数据';
+        
+        const valueStr = value.toString();
+        
+        // 根据营养素类型进行特殊处理
+        switch(type) {
+            case 'calories':
+                // 热量通常以千卡为单位
+                const calorieMatch = valueStr.match(/(\d+(?:\.\d+)?)/);
+                if (calorieMatch) {
+                    return `${Math.round(parseFloat(calorieMatch[1]))}kcal`;
+                }
+                break;
+                
+            case 'protein':
+            case 'fat': 
+            case 'carbs':
+                // 蛋白质、脂肪、碳水化合物通常以克为单位
+                const gramMatch = valueStr.match(/(\d+(?:\.\d+)?)/);
+                if (gramMatch) {
+                    return `${Math.round(parseFloat(gramMatch[1]) * 10) / 10}g`;
+                }
+                break;
+        }
+        
+        // 如果无法解析，返回简化版本
+        if (valueStr.includes('暂无') || valueStr.includes('无法')) {
+            return '暂无数据';
+        }
+        
+        return '待分析';
+    }
+    
+    const calories = formatNutrientData(result['总热量'], 'calories');
+    const protein = formatNutrientData(result['蛋白质'], 'protein');
+    const fat = formatNutrientData(result['脂肪'], 'fat');
+    const carbs = formatNutrientData(result['碳水化合物'], 'carbs');
+    
+    // 生成增强的营养总览HTML
+    summaryElement.innerHTML = `
+        <div class="nutrition-overview-card ${scoreClass}">
+            <div class="overview-header">
+                <div class="header-icon-wrapper">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="header-text">
+                    <h3>营养摄入总览</h3>
+                    <p>全面分析您的营养摄入情况</p>
+                </div>
+            </div>
+            <div class="nutrition-summary">
+                <div class="nutrition-overview">
+                    <div class="nutrition-score">
+                        <div class="score-circle" style="--score-angle: ${scoreAngle}deg; background: conic-gradient(from 0deg, ${scoreColor} 0deg ${scoreAngle}deg, rgba(255, 255, 255, 0.2) ${scoreAngle}deg 360deg);">
+                            <div class="score-number">${score}</div>
+                            <div class="score-max">/10</div>
+                        </div>
+                        <div class="score-details">
+                            <div class="score-label">营养评分</div>
+                            <div class="score-status" style="color: ${scoreColor};">${scoreLevel}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-stats">
+                        <div class="nutrition-stat calories ${calories === '暂无数据' || calories === '待分析' ? 'error' : ''}">
+                            <div class="stat-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-value">${calories}</div>
+                                <div class="stat-label">热量</div>
+                            </div>
+                        </div>
+                        
+                        <div class="nutrition-stat protein ${protein === '暂无数据' || protein === '待分析' ? 'error' : ''}">
+                            <div class="stat-icon">
+                                <i class="fas fa-drumstick-bite"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-value">${protein}</div>
+                                <div class="stat-label">蛋白质</div>
+                            </div>
+                        </div>
+                        
+                        <div class="nutrition-stat fat ${fat === '暂无数据' || fat === '待分析' ? 'error' : ''}">
+                            <div class="stat-icon">
+                                <i class="fas fa-cheese"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-value">${fat}</div>
+                                <div class="stat-label">脂肪</div>
+                            </div>
+                        </div>
+                        
+                        <div class="nutrition-stat carbs ${carbs === '暂无数据' || carbs === '待分析' ? 'error' : ''}">
+                            <div class="stat-icon">
+                                <i class="fas fa-bread-slice"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-value">${carbs}</div>
+                                <div class="stat-label">碳水化合物</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+</script>
+{% endblock %}

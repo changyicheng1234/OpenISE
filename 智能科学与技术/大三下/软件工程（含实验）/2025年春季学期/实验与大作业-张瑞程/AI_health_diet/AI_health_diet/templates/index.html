@@ -1,0 +1,895 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Full-screen hero section with large background image, apple-style -->
+<section class="fullscreen-hero">    <div class="hero-background-slideshow">
+        <div class="hero-background active" data-index="0"></div>
+        <div class="hero-background" data-index="1"></div>
+        <div class="hero-background" data-index="2"></div>
+        <div class="hero-background" data-index="3"></div>
+        <div class="hero-background" data-index="4"></div>
+        <div class="hero-background" data-index="5"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content animate-fade-in">
+        <div class="hero-text-wrapper">
+            <h1 class="hero-heading animate-slide-up">
+                <span class="hero-text-line">AI<span class="highlight">健康饮食</span>助手</span>
+            </h1>
+            <p class="hero-subtitle animate-slide-up delay-300">科学饮食，健康生活</p>
+            <div class="hero-cta animate-fade-in delay-600">
+                <a href="{{ url_for('profile') }}" class="btn btn-primary btn-large btn-glow">
+                    <i class="fas fa-rocket"></i> 立即开始
+                </a>
+                <a href="#features" class="btn  btn-large  btn-outline scroll-btn" id="learn-more-btn">
+                    <i class="fas fa-chevron-down"></i> 了解更多
+                </a>
+            </div>
+        </div>
+    </div>    <div class="hero-slideshow-indicators">
+        <span class="slideshow-indicator active" data-index="0"></span>
+        <span class="slideshow-indicator" data-index="1"></span>
+        <span class="slideshow-indicator" data-index="2"></span>
+        <span class="slideshow-indicator" data-index="3"></span>
+        <span class="slideshow-indicator" data-index="4"></span>
+        <span class="slideshow-indicator" data-index="5"></span>
+    </div>
+    <div class="scroll-indicator animate-pulse" id="scroll-indicator">
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- Main features section -->
+<section class="features-section" id="features">
+    <div class="section-header animate-on-scroll fade-in-up">
+        <span class="section-badge">功能介绍</span>
+        <h2>智能健康饮食功能</h2>
+        <p>一站式解决您的健康饮食需求</p>
+    </div>
+
+    <div class="index-features-container">
+        <div class="index-features-grid">
+            <!-- 推荐食谱 -->
+            <div class="index-feature-card animate-on-scroll fade-in-up">
+                <div class="index-feature-tag">热门</div>
+                <div class="index-feature-icon-container">
+                    <div class="index-feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                </div>
+                <div class="index-feature-content">
+                    <h3 class="index-feature-title">推荐食谱</h3>
+                    <p class="index-feature-description">基于您的健康目标和饮食偏好，为您推荐个性化的健康食谱，帮助您科学合理地规划每一餐。</p>
+                    <a href="{{ url_for('recommend') }}" class="index-feature-button">
+                        <span class="button-text">开始使用</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 分析三餐 -->
+            <div class="index-feature-card animate-on-scroll fade-in-up delay-1">
+                <div class="index-feature-icon-container">
+                    <div class="index-feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                </div>
+                <div class="index-feature-content">
+                    <h3 class="index-feature-title">分析三餐</h3>
+                    <p class="index-feature-description">分析您的一日三餐，提供详细的营养成分分析和改善建议，让您的饮食更加均衡健康。</p>
+                    <a href="{{ url_for('analyze') }}" class="index-feature-button">
+                        <span class="button-text">开始使用</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 生成菜谱 -->
+            <div class="index-feature-card animate-on-scroll fade-in-up delay-2">
+                <div class="index-feature-tag">推荐</div>
+                <div class="index-feature-icon-container">
+                    <div class="index-feature-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+                <div class="index-feature-content">
+                    <h3 class="index-feature-title">生成菜谱</h3>
+                    <p class="index-feature-description">为您生成详细的菜谱，包含食材清单、烹饪步骤和营养信息，让您轻松做出健康美味的佳肴。</p>
+                    <a href="{{ url_for('recipe') }}" class="index-feature-button">
+                        <span class="button-text">开始使用</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 外卖推荐 -->
+            <div class="index-feature-card animate-on-scroll fade-in-up delay-3">
+                <div class="index-feature-icon-container">
+                    <div class="index-feature-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                </div>
+                <div class="index-feature-content">
+                    <h3 class="index-feature-title">外卖推荐</h3>
+                    <p class="index-feature-description">根据您的口味和预算，推荐健康的本地外卖菜品，让您在忙碌的日子里也能享用健康饮食。</p>
+                    <a href="{{ url_for('takeout') }}" class="index-feature-button">
+                        <span class="button-text">开始使用</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 经济饮食 -->
+            <div class="index-feature-card animate-on-scroll fade-in-up delay-4">
+                <div class="index-feature-tag">经济</div>
+                <div class="index-feature-icon-container">
+                    <div class="index-feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                </div>
+                <div class="index-feature-content">
+                    <h3 class="index-feature-title">经济饮食</h3>
+                    <p class="index-feature-description">在保证营养均衡的情况下，为您推荐最经济实惠的饮食方案，既健康又省钱。</p>
+                    <a href="{{ url_for('economical') }}" class="index-feature-button">
+                        <span class="button-text">开始使用</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 减肥计划 -->
+            <div class="index-feature-card animate-on-scroll fade-in-up delay-5">
+                <div class="index-feature-tag">热门</div>
+                <div class="index-feature-icon-container">
+                    <div class="index-feature-icon">
+                        <i class="fas fa-weight"></i>
+                    </div>
+                </div>
+                <div class="index-feature-content">
+                    <h3 class="index-feature-title">减肥计划</h3>
+                    <p class="index-feature-description">根据您的体重目标，为您定制科学的减重计划和轻食食谱，健康减肥不反弹。</p>
+                    <a href="{{ url_for('weight_loss') }}" class="index-feature-button">
+                        <span class="button-text">开始使用</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How it works section with improved design -->
+<section class="how-it-works">
+    <div class="section-header animate-fadeIn">
+        <span class="section-badge">使用指南</span>
+        <h2>使用流程</h2>
+        <p>只需三步，开启健康饮食之旅</p>
+    </div>
+    <div class="steps-container">
+        <div class="steps animate-fadeIn"> 
+            <div class="step animate-slideInUp">
+                <div class="step-number">1</div>
+                <div class="step-icon animate-pulse">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3>创建个人档案</h3>
+                <p>填写您的基本信息、健康目标和饮食偏好，帮助我们更好地了解您</p>
+            </div>
+            
+            <div class="step-arrow animate-fadeIn delay-200">
+                <i class="fas fa-chevron-circle-right"></i>
+            </div>
+            
+            <div class="step animate-slideInUp delay-200">
+                <div class="step-number">2</div>
+                <div class="step-icon animate-pulse">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <h3>选择需要的功能</h3>
+                <p>根据您的需求，选择推荐食谱、分析三餐、生成菜谱等功能</p>
+            </div>
+            
+            <div class="step-arrow animate-fadeIn delay-300">
+                <i class="fas fa-chevron-circle-right"></i>
+            </div>
+            
+            <div class="step animate-slideInUp delay-300">
+                <div class="step-number">3</div>
+                <div class="step-icon animate-pulse">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>获取个性化结果</h3>
+                <p>AI系统将为您提供量身定制的健康饮食建议和方案</p>
+            </div>
+        </div>
+    </div>
+    <div class="cta-container animate-fadeIn delay-400">
+        <a href="{{ url_for('profile') }}" class="btn btn-primary btn-large btn-animated">
+            <i class="fas fa-rocket"></i> 立即开始使用
+        </a>
+    </div>
+</section>
+
+<style>
+/* 全屏英雄区样式升级 */
+.fullscreen-hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    margin: 0;
+    margin-top: -1px; /* 消除导航栏下方的空隙 */
+    padding: 0;
+}
+
+/* 轮播背景容器 */
+.hero-background-slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 1.5s ease-in-out, transform 20s ease-out;
+    z-index: -2;
+}
+
+.hero-background.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.hero-background[data-index="0"] {
+    background-image: url("{{ url_for('static', filename='images/1.jpeg') }}");
+}
+
+.hero-background[data-index="1"] {
+    background-image: url("{{ url_for('static', filename='images/2.jpeg') }}");
+}
+
+.hero-background[data-index="2"] {
+    background-image: url("{{ url_for('static', filename='images/3.jpeg') }}");
+}
+
+.hero-background[data-index="3"] {
+    background-image: url("{{ url_for('static', filename='images/4.jpeg') }}");
+}
+
+.hero-background[data-index="4"] {
+    background-image: url("{{ url_for('static', filename='images/5.jpeg') }}");
+}
+
+.hero-background[data-index="5"] {
+    background-image: url("{{ url_for('static', filename='images/6.jpeg') }}");
+}
+
+/* 确保轮播背景不被其他样式覆盖 */
+.fullscreen-hero {
+    background: none !important;
+}
+
+/* 轮播指示器 */
+.hero-slideshow-indicators {
+    position: absolute;
+    bottom: 8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.slideshow-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slideshow-indicator.active {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.2);
+}
+
+.slideshow-indicator:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: 1000px;
+    padding: 0 2rem;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.hero-text-wrapper {
+    position: relative;
+}
+
+.hero-heading {
+    font-size: 5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease-out forwards;
+}
+
+.hero-text-line {
+    display: block;
+    overflow: hidden;
+}
+
+.hero-subtitle {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease-out 0.3s forwards;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.6s forwards;
+}
+
+.btn-large {
+    padding: 1.2rem 2.8rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    min-width: 180px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-glow {
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 30px rgba(76, 175, 80, 0.5);
+    transform: translateY(-2px);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 10;
+    animation: bounce 2s infinite;
+}
+
+.scroll-arrow {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    position: relative;
+}
+
+.scroll-arrow:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: translate(-50%, -75%) rotate(45deg);
+}
+
+/* 增强特性部分样式 */
+.features-section {
+    padding: 8rem 2rem;
+    background-color: #f8f9fa;
+    position: relative;
+}
+
+.section-badge {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--primary-color);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.section-header h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.section-header p {
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* 改进卡片样式 */
+.index-feature-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    color: var(--primary-color);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.index-feature-button .button-text {
+    position: relative;
+    z-index: 2;
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.index-feature-button i {
+    transform: translateX(0);
+    transition: all 0.3s ease;
+}
+
+.index-feature-button:hover .button-text {
+    margin-right: 0.8rem;
+}
+
+.index-feature-button:hover i {
+    transform: translateX(5px);
+}
+
+/* 使用流程部分美化 */
+.how-it-works {
+    padding: 8rem 2rem;
+    background-color: white;
+    position: relative;
+}
+
+.steps-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0;
+}
+
+.step {
+    flex: 1;
+    max-width: 300px;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-weight: 700;
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(76, 175, 80, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.step-icon i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.step h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-dark);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.step p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.step-arrow {
+    font-size: 2rem;
+    color: var(--primary-light);
+    margin: 0 1.5rem;
+}
+
+.cta-container {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+/* 动画效果优化 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroBackgroundZoom {
+    from { transform: scale(1.05); }
+    to { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    40% {
+        transform: translateY(-15px) translateX(-50%);
+    }
+    60% {
+        transform: translateY(-8px) translateX(-50%);
+    }
+}
+
+.animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease-out forwards;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.delay-600 {
+    animation-delay: 0.6s;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 媒体查询适配 */
+@media (max-width: 1200px) {
+    .hero-heading {
+        font-size: 4.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-heading {
+        font-size: 3.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.8rem;
+    }
+    
+    .steps {
+        flex-direction: column;
+        gap: 3rem;
+    }
+    
+    .step {
+        max-width: 100%;
+        width: 90%;
+    }
+    
+    .step-arrow {
+        transform: rotate(90deg);
+        margin: 1rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-heading {
+        font-size: 3.2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .section-header p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-heading {
+        font-size: 2.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .features-section,
+    .how-it-works {
+        padding: 4rem 1.5rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 背景图片轮播功能
+    const backgrounds = document.querySelectorAll('.hero-background');
+    const indicators = document.querySelectorAll('.slideshow-indicator');
+    let currentIndex = 0;
+    const totalImages = backgrounds.length;
+    
+    function showSlide(index) {
+        // 移除所有active类
+        backgrounds.forEach(bg => bg.classList.remove('active'));
+        indicators.forEach(indicator => indicator.classList.remove('active'));
+        
+        // 添加active类到当前图片和指示器
+        backgrounds[index].classList.add('active');
+        indicators[index].classList.add('active');
+        
+        currentIndex = index;
+    }
+    
+    function nextSlide() {
+        const nextIndex = (currentIndex + 1) % totalImages;
+        showSlide(nextIndex);
+    }
+    
+    // 自动轮播，每5秒切换一次
+    const autoSlide = setInterval(nextSlide, 5000);
+    
+    // 指示器点击事件
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            clearInterval(autoSlide);
+            showSlide(index);
+            // 重新开始自动轮播
+            setTimeout(() => {
+                setInterval(nextSlide, 5000);
+            }, 5000);
+        });
+    });
+    
+    // 平滑滚动到功能区
+    const scrollToFeatures = function(e) {
+        if (e) e.preventDefault(); // 阻止默认行为
+        const featuresSection = document.getElementById('features');
+        if (featuresSection) {
+            // 禁用页面转换动画
+            document.querySelectorAll('#pageTransition').forEach(elem => {
+                elem.style.display = 'none';
+                elem.style.opacity = '0';
+            });
+            
+            // 平滑滚动
+            featuresSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    };
+    
+    // 为了解更多按钮添加点击事件
+    const learnMoreBtn = document.getElementById('learn-more-btn');
+    if (learnMoreBtn) {
+        learnMoreBtn.addEventListener('click', scrollToFeatures);
+        
+        // 覆盖父级事件处理器
+        learnMoreBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // 阻止事件冒泡
+            scrollToFeatures();
+            return false;
+        }, true);
+    }
+    
+    // 点击滚动指示器也滚动到功能区
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', scrollToFeatures);
+    }
+    
+    // 为视窗内的元素添加动画
+    const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.animate-on-scroll');
+        
+        elements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            // 当元素进入视窗时添加动画类
+            if (elementPosition < windowHeight * 0.85) {
+                element.classList.add('animate-active');
+            }
+        });
+    };
+    
+    // 页面加载时和滚动时执行动画检查
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+    
+    // 检测图片加载失败并处理
+    const featureImages = document.querySelectorAll('.feature-image');
+    
+    featureImages.forEach(img => {
+        // 检查图片是否已加载
+        if(img.complete && img.naturalHeight === 0) {
+            handleImageError(img);
+        }
+        
+        // 添加错误处理
+        img.addEventListener('error', function() {
+            handleImageError(this);
+        });
+    });
+    
+    function handleImageError(img) {
+        // 获取对应的功能卡片标题
+        const cardTitle = img.closest('.feature-card').querySelector('h2').textContent.trim();
+        const wrapper = img.closest('.feature-image-wrapper');
+        
+        // 设置替代背景色
+        wrapper.style.backgroundColor = '#f1f8e9';
+        
+        // 根据卡片标题选择适当的图标
+        let iconClass = 'fa-utensils'; // 默认图标
+        
+        if(cardTitle.includes('推荐食谱')) iconClass = 'fa-utensils';
+        else if(cardTitle.includes('分析三餐')) iconClass = 'fa-chart-pie';
+        else if(cardTitle.includes('生成菜谱')) iconClass = 'fa-book-open';
+        else if(cardTitle.includes('外卖推荐')) iconClass = 'fa-shopping-bag';
+        else if(cardTitle.includes('经济饮食')) iconClass = 'fa-coins';
+        else if(cardTitle.includes('减肥计划')) iconClass = 'fa-weight';
+        
+        // 创建并添加图标元素
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'feature-icon-fallback';
+        iconDiv.innerHTML = `<i class="fas ${iconClass}"></i>`;
+        wrapper.appendChild(iconDiv);
+        
+        // 隐藏原始图片
+        img.style.display = 'none';
+    }
+
+    // 英雄区域背景图加载失败时使用渐变色替代
+    const heroBackground = document.querySelector('.hero-background');
+    if (heroBackground) {
+        const bgImage = new Image();
+        bgImage.onload = function() {
+            // 图片加载成功时不做任何处理
+        };
+        bgImage.onerror = function() {
+            // 图片加载失败时添加类以使用CSS中的渐变背景
+            heroBackground.classList.add('bg-fallback');
+        };
+        
+        // 尝试加载hero-bg.jpg图片
+        const bgUrl = heroBackground.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, '$1');
+        if (bgUrl) {
+            bgImage.src = bgUrl;
+        } else {
+            // 如果没有背景图URL，直接应用渐变背景
+            heroBackground.classList.add('bg-fallback');
+        }
+    }
+});
+</script>
+{% endblock %}

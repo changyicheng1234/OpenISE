@@ -1,0 +1,383 @@
+/**
+ * 三餐分析卡片 - 增强美化样式
+ * 提供更加美观的三餐分析展示效果
+ */
+
+/* 三餐分析容器 */
+.meal-analysis-container {
+  margin-top: 3rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-header h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+/* 三餐卡片网格 */
+.meal-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* 三餐分析卡片 */
+.meal-analysis-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.meal-analysis-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.meal-analysis-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--meal-color-start), var(--meal-color-end));
+}
+
+/* 早餐卡片 */
+.breakfast-card {
+  --meal-color-start: #FF9A8B;
+  --meal-color-end: #A8E6CF;
+}
+
+.breakfast-card .meal-badge {
+  background: linear-gradient(135deg, #FF9A8B, #A8E6CF);
+}
+
+/* 午餐卡片 */
+.lunch-card {
+  --meal-color-start: #667eea;
+  --meal-color-end: #764ba2;
+}
+
+.lunch-card .meal-badge {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* 晚餐卡片 */
+.dinner-card {
+  --meal-color-start: #f093fb;
+  --meal-color-end: #f5576c;
+}
+
+.dinner-card .meal-badge {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+/* 餐别卡片头部 */
+.meal-card-header {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.meal-card-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+}
+
+.meal-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.meal-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.meal-badge i {
+  font-size: 1.4rem;
+  color: white;
+  display: inline-block !important;
+}
+
+.meal-info h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1F2937;
+  margin: 0 0 0.25rem 0;
+}
+
+.meal-time {
+  font-size: 0.9rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.meal-status {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.meal-status.success {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.meal-status.warning {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.meal-status i {
+  font-size: 1.1rem;
+  display: inline-block !important;
+}
+
+/* 餐别分析内容 */
+.meal-analysis-content {
+  padding: 1.5rem;
+}
+
+.analysis-content {
+  line-height: 1.6;
+}
+
+.analysis-text {
+  color: #374151;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid #E5E7EB;
+  position: relative;
+}
+
+.analysis-text:last-child {
+  margin-bottom: 0;
+}
+
+.analysis-text::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 0.6rem;
+  width: 6px;
+  height: 6px;
+  background: var(--meal-color-start);
+  border-radius: 50%;
+}
+
+.analysis-placeholder {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #9CA3AF;
+}
+
+.analysis-placeholder i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.analysis-placeholder p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* 营养建议区域美化 */
+.nutrition-advice-section {
+  margin-top: 3rem;
+}
+
+.advice-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+}
+
+.advice-header {
+  padding: 2rem 2rem 1rem 2rem;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.advice-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.advice-icon i {
+  font-size: 1.6rem;
+  color: white;
+  display: inline-block !important;
+}
+
+.advice-title h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.advice-title p {
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.advice-content {
+  padding: 1rem 2rem 2rem 2rem;
+}
+
+.advice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.advice-item {
+  display: flex;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.advice-number {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  font-size: 0.9rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.advice-text {
+  color: white;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.advice-placeholder {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.advice-placeholder i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  opacity: 0.5;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .meal-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .meal-card-header {
+    padding: 1.25rem;
+  }
+  
+  .meal-analysis-content {
+    padding: 1.25rem;
+  }
+  
+  .advice-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .advice-icon {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .advice-content {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+  }
+  
+  .advice-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .advice-number {
+    margin-right: 0;
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .meal-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-header h3 {
+    font-size: 1.6rem;
+  }
+  
+  .section-header p {
+    font-size: 1rem;
+  }
+}

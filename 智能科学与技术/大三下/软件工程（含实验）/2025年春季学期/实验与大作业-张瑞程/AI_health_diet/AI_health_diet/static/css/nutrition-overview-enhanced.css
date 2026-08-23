@@ -1,0 +1,509 @@
+/**
+ * 营养摄入总览 - 增强美化样式
+ * 提供更加美观、现代化的营养数据展示
+ */
+
+/* 营养摄入总览卡片容器 */
+.nutrition-overview-card {
+  background: linear-gradient(135deg, #4CAF50 0%, #81C784 50%, #2196F3 100%);
+  border-radius: 28px;
+  padding: 0;
+  margin-bottom: 3rem;
+  box-shadow: 
+    0 25px 50px rgba(76, 175, 80, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nutrition-overview-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 32px 64px rgba(76, 175, 80, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.nutrition-overview-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.overview-header {
+  padding: 2rem 2rem 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.overview-header .header-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.overview-header .header-icon-wrapper:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.overview-header .header-icon-wrapper i {
+  font-size: 1.8rem;
+  color: white;
+  display: inline-block !important;
+}
+
+.overview-header .header-text h3 {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.overview-header .header-text p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* 营养总览内容区域 */
+.nutrition-summary {
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.nutrition-overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* 营养评分圆环 */
+.nutrition-score {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #4CAF50 0deg var(--score-angle, 180deg),
+    rgba(255, 255, 255, 0.2) var(--score-angle, 180deg) 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 1rem;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.score-circle:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.score-circle::before {
+  content: '';
+  position: absolute;
+  width: 84px;
+  height: 84px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(255, 255, 255, 0.2);
+}
+
+.score-number {
+  position: relative;
+  z-index: 2;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1F2937;
+  line-height: 1;
+}
+
+.score-max {
+  position: relative;
+  z-index: 2;
+  font-size: 1rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.score-details {
+  text-align: center;
+  color: white;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+}
+
+.score-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 营养统计网格 */
+.nutrition-stats {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.nutrition-stat {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.nutrition-stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.nutrition-stat:hover {
+  transform: translateY(-4px) scale(1.02);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.nutrition-stat:hover::before {
+  opacity: 1;
+}
+
+.stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  margin-bottom: 0.875rem;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nutrition-stat:hover .stat-icon {
+  transform: scale(1.1) rotate(5deg);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.stat-icon i {
+  font-size: 1.5rem;
+  color: white;
+  display: inline-block !important;
+}
+
+.stat-details {
+  position: relative;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.nutrition-stat:hover .stat-value {
+  transform: scale(1.05);
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 不同营养素的特色颜色 - 与页面主题协调 */
+.nutrition-stat.calories .stat-icon {
+  background: linear-gradient(135deg, #FF6D00 0%, #FF9E40 50%, #FFB74D 100%);
+  box-shadow: 0 4px 15px rgba(255, 109, 0, 0.3);
+}
+
+.nutrition-stat.protein .stat-icon {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 50%, #81C784 100%);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.nutrition-stat.fat .stat-icon {
+  background: linear-gradient(135deg, #FF9800 0%, #FFB74D 50%, #FFCC02 100%);
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.nutrition-stat.carbs .stat-icon {
+  background: linear-gradient(135deg, #2196F3 0%, #42A5F5 50%, #64B5F6 100%);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+/* 悬停时的特色颜色增强 */
+.nutrition-stat.calories:hover .stat-icon {
+  box-shadow: 0 8px 25px rgba(255, 109, 0, 0.4);
+}
+
+.nutrition-stat.protein:hover .stat-icon {
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+.nutrition-stat.fat:hover .stat-icon {
+  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+}
+
+.nutrition-stat.carbs:hover .stat-icon {
+  box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+}
+
+/* 营养卡片进入动画 */
+.nutrition-stat {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.nutrition-stat:nth-child(1) { animation-delay: 0.1s; }
+.nutrition-stat:nth-child(2) { animation-delay: 0.2s; }
+.nutrition-stat:nth-child(3) { animation-delay: 0.3s; }
+.nutrition-stat:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 营养评分圆环进入动画 */
+.score-circle {
+  opacity: 0;
+  transform: scale(0.8);
+  animation: scoreAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+}
+
+@keyframes scoreAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 标题图标动画 */
+.overview-header .header-icon-wrapper {
+  opacity: 0;
+  transform: scale(0.5) rotate(-180deg);
+  animation: iconSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes iconSpin {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* 微妙的脉冲效果 */
+.score-circle::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+  animation: pulse 3s ease-in-out infinite;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.1;
+  }
+}
+
+/* 为不同评分等级添加柔和的背景变化 */
+.nutrition-overview-card.excellent {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 30%, #81C784 70%, #A5D6A7 100%);
+}
+
+.nutrition-overview-card.good {
+  background: linear-gradient(135deg, #2196F3 0%, #42A5F5 30%, #64B5F6 70%, #90CAF9 100%);
+}
+
+.nutrition-overview-card.average {
+  background: linear-gradient(135deg, #FF9800 0%, #FFB74D 30%, #FFCC02 70%, #FFD54F 100%);
+}
+
+.nutrition-overview-card.poor {
+  background: linear-gradient(135deg, #F44336 0%, #EF5350 30%, #E57373 70%, #FFAB91 100%);
+}
+
+/* 响应式优化 - 在移动设备上稍微调整渐变 */
+@media (max-width: 768px) {
+  .nutrition-overview-card {
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 50%, #2196F3 100%);
+  }
+  
+  .nutrition-overview-card.excellent {
+    background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+  }
+  
+  .nutrition-overview-card.good {
+    background: linear-gradient(135deg, #2196F3 0%, #64B5F6 100%);
+  }
+  
+  .nutrition-overview-card.average {
+    background: linear-gradient(135deg, #FF9800 0%, #FFCC02 100%);
+  }
+  
+  .nutrition-overview-card.poor {
+    background: linear-gradient(135deg, #F44336 0%, #E57373 100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .nutrition-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .nutrition-stat {
+    padding: 1.25rem 1rem;
+  }
+  
+  .overview-header,
+  .nutrition-summary {
+    padding: 1.5rem;
+  }
+}
+
+/* 营养总览摘要卡片基础样式 */
+.nutrition-summary-card {
+  margin-bottom: 2rem;
+}
+
+.nutrition-summary-card .summary-content {
+  padding: 0;
+}
+
+/* 确保营养总览卡片的正确显示 */
+.nutrition-summary-card .nutrition-overview-card {
+  margin-bottom: 0;
+}
+
+/* 营养卡片加载状态样式 */
+.nutrition-stat.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.nutrition-stat.loading .stat-value {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  color: transparent;
+  border-radius: 4px;
+  min-height: 1.5rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* 数据错误状态样式 */
+.nutrition-stat.error .stat-value {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.nutrition-stat.error .stat-icon {
+  opacity: 0.5;
+}

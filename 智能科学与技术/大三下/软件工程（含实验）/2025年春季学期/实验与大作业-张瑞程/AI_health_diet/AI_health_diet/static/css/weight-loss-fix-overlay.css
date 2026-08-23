@@ -1,0 +1,212 @@
+/**
+ * 减肥计划页面的重叠修复
+ */
+
+/* 确保图标正确显示 */
+.fa, .fas, .far, .fab {
+  display: inline-block !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  line-height: 1 !important;
+}
+
+/* 修复页面头部 */
+.page-header h1,
+.page-header .page-description {
+  position: relative;
+  z-index: 5;
+}
+
+/* 修复图标显示 */
+.feature-icon-wrapper i,
+.input-with-icon i,
+.btn i,
+.summary-icon i,
+.meal-icon i,
+.ingredients h4 i,
+.nutrition-detail h4 i,
+.ingredient-list li i,
+.nutrition-item i,
+.exercise-icon i,
+.card-header i,
+.tip-icon i {
+  display: inline-block !important;
+}
+
+/* 修复表单元素 */
+.styled-form {
+  overflow: visible !important;
+}
+
+.form-row {
+  overflow: visible !important;
+}
+
+.form-group {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+/* 修复输入框图标位置 */
+.input-with-icon i {
+  position: absolute !important;
+  left: 1rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #777 !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+}
+
+/* 确保select元素样式正确 */
+select {
+  padding-left: 2.8rem !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  background-size: 1rem !important;
+}
+
+/* 修复按钮样式 */
+.btn-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-primary i {
+  margin-right: 0.8rem !important;
+}
+
+/* 修复加载动画显示 */
+.loading-container {
+  display: none;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.loading-container.active {
+  display: flex !important;
+}
+
+/* 修复计划概览区域 */
+.plan-summary-card {
+  overflow: visible !important;
+}
+
+.summary-header {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.summary-content {
+  display: grid !important;
+}
+
+.summary-item {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.summary-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 修复餐饮卡片 */
+.meal-plan-grid {
+  display: grid !important;
+  gap: 1.5rem !important;
+}
+
+.meal-card {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.meal-card-header {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.meal-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.meal-title {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* 修复营养信息显示 */
+.nutrition-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.nutrition-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* 修复运动项目显示 */
+.exercise-item {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.exercise-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 修复健康贴士卡片 */
+.tip-grid {
+  display: grid !important;
+}
+
+.tip-card {
+  display: flex !important;
+  align-items: flex-start !important;
+}
+
+.tip-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* 响应式修复 */
+@media (max-width: 768px) {
+  .form-row {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  
+  .summary-content {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .nutrition-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .meal-plan-grid,
+  .tip-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .btn {
+    width: 100% !important;
+  }
+} 

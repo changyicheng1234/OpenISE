@@ -1,0 +1,544 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="card main-card animate-slideInUp">
+        <div class="feature-intro">
+            <div class="feature-icon-wrapper">
+                <i class="fas fa-weight"></i>
+            </div>
+            <h2>智能减重计划</h2>
+            <p class="intro-text">
+                根据您的身体数据定制科学减重方案，提供精准的热量控制、营养配比和运动建议。
+                遵循每周减重0.5-1kg的健康标准，助您安全有效地达成目标。
+            </p>
+        </div>
+        <form id="weightLossForm" class="styled-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="current_weight">当前体重（kg）</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-balance-scale"></i>
+                        <input type="number" id="current_weight" name="current_weight" 
+                               required step="0.1" placeholder="如：65.5" min="30" max="300">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="target_weight">目标体重（kg）</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-bullseye"></i>
+                        <input type="number" id="target_weight" name="target_weight" 
+                               required step="0.1" placeholder="如：60" min="30" max="300">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="plan_days">计划周期（天）</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                        <select id="plan_days" name="plan_days">
+                            <option value="7">7天</option>
+                            <option value="14">14天</option>
+                            <option value="30">30天</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="activity_level">活动强度</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-running"></i>
+                        <select id="activity_level">
+                            <option value="low">久坐</option>
+                            <option value="moderate" selected>中等</option>
+                            <option value="active">活跃</option>
+                        </select>                    </div>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary btn-animated">
+                    <i class="fas fa-magic"></i> 生成计划
+                </button>
+            </div>
+        </form>
+
+        <!-- 加载动画 -->
+        <div class="loading-container" id="loadingSpinner">
+            <div class="loader loader-lg"></div>
+            <p class="loading-text">正在为您定制科学减重方案...</p>
+        </div>
+    </div>
+
+    <div id="weightLossResult" class="result-container animate-fadeIn" style="display: none;"></div>
+</div>
+
+<script>
+document.getElementById('weightLossForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const resultDiv = document.getElementById('weightLossResult');
+
+    // 显示加载动画
+    form.style.opacity = '0.5';
+    loadingSpinner.style.display = 'flex';
+    resultDiv.style.display = 'none';
+    resultDiv.classList.remove('fade-in');
+
+    const data = {
+        current_weight: parseFloat(document.getElementById('current_weight').value),
+        target_weight: parseFloat(document.getElementById('target_weight').value),
+        days: parseInt(document.getElementById('plan_days').value),
+        activity_level: document.getElementById('activity_level').value
+    };
+    
+    try {
+        const response = await fetch('/weight_loss', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        console.log('前端接收的减肥计划数据:', result);
+
+        if (result.error) {
+            resultDiv.innerHTML = `<p class="error-text">${result.error}</p>`;
+            resultDiv.style.display = 'block';
+            loadingSpinner.style.display = 'none';
+            form.style.opacity = '1';
+            return;
+        }
+        
+        // 构建结果展示
+        let resultHtml = `
+            <div class="plan-summary-card animate-slideInUp">
+                <div class="summary-header">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>计划概览</h3>
+                </div>
+                <div class="summary-content">
+                    <div class="summary-item">
+                        <div class="summary-icon"><i class="fas fa-weight"></i></div>
+                        <div class="summary-details">
+                            <span class="summary-label">当前体重</span>
+                            <span class="summary-value">${result.计划概览.当前体重}</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="summary-details">
+                            <span class="summary-label">目标体重</span>
+                            <span class="summary-value">${result.计划概览.目标体重}</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="summary-details">
+                            <span class="summary-label">计划周期</span>
+                            <span class="summary-value">${result.计划概览.计划周期}</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-icon"><i class="fas fa-fire"></i></div>
+                        <div class="summary-details">
+                            <span class="summary-label">每日热量</span>
+                            <span class="summary-value">${result.计划概览.每日热量}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // 每日食谱
+        resultHtml += '<div class="meal-plan-grid animate-slideInUp delay-200">';
+        ['早餐', '午餐', '晚餐'].forEach((meal, index) => {
+            const mealData = result.每日食谱[meal.toLowerCase()] || {};
+            const delayClass = `delay-${(index + 2) * 100}`;
+            
+            resultHtml += `
+                <div class="meal-card hover-lift ${delayClass}">
+                    <div class="meal-card-header">
+                        <div class="meal-icon">
+                            <i class="fas ${meal === '早餐' ? 'fa-coffee' : meal === '午餐' ? 'fa-hamburger' : 'fa-utensils'}"></i>
+                        </div>
+                        <div class="meal-title">
+                            <h3>${meal}</h3>
+                            <span class="calorie-badge">${mealData.营养?.calories || 0}kcal</span>
+                        </div>
+                    </div>
+                    <div class="meal-card-content">
+                        <div class="ingredients">
+                            <h4><i class="fas fa-apple-alt"></i> 推荐菜单</h4>
+                            <ul class="ingredient-list">
+                                ${(mealData.菜单 || ['暂无数据']).map(item => `<li><i class="fas fa-check-circle"></i> ${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="nutrition-detail">
+                            <h4><i class="fas fa-chart-pie"></i> 营养明细</h4>
+                            <div class="nutrition-grid">
+                                <div class="nutrition-item">
+                                    <i class="fas fa-egg"></i>
+                                    <span class="nutrition-label">蛋白质</span>
+                                    <span class="nutrition-value">${mealData.营养?.protein || 0}g</span>
+                                </div>
+                                <div class="nutrition-item">
+                                    <i class="fas fa-oil-can"></i>
+                                    <span class="nutrition-label">脂肪</span>
+                                    <span class="nutrition-value">${mealData.营养?.fat || 0}g</span>
+                                </div>
+                                <div class="nutrition-item">
+                                    <i class="fas fa-bread-slice"></i>
+                                    <span class="nutrition-label">碳水</span>
+                                    <span class="nutrition-value">${mealData.营养?.carbs || 0}g</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        resultHtml += '</div>';
+
+        // 运动建议
+        if (result.运动建议?.length) {
+            resultHtml += `
+                <div class="exercise-plan-card animate-slideInUp delay-500">
+                    <div class="card-header">
+                        <i class="fas fa-running"></i>
+                        <h3>运动方案</h3>
+                    </div>
+                    <div class="exercise-content">
+                        <ul class="exercise-list">
+                            ${result.运动建议.map(item => `
+                                <li class="exercise-item hover-grow">
+                                    <div class="exercise-icon"><i class="fas fa-dumbbell"></i></div>
+                                    <div class="exercise-detail">
+                                        <p>${item}</p>
+                                    </div>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 健康提示
+        if (result.健康贴士?.length) {
+            resultHtml += `
+                <div class="health-tips-card animate-slideInUp delay-600">
+                    <div class="card-header">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>健康贴士</h3>
+                    </div>
+                    <div class="tip-grid">
+                        ${result.健康贴士.map((tip, index) => `
+                            <div class="tip-card hover-lift delay-${(index + 6) * 100}">
+                                <div class="tip-icon"><i class="fas fa-lightbulb"></i></div>
+                                <p>${tip}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        resultDiv.innerHTML = resultHtml;
+        resultDiv.style.display = 'block';
+        resultDiv.classList.add('fade-in');
+        loadingSpinner.style.display = 'none';
+        form.style.opacity = '1';
+        
+        // 平滑滚动到结果
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    } catch (error) {
+        console.error('前端错误:', error);
+        resultDiv.innerHTML = '<p class="error-text">生成计划失败，请检查网络后重试</p>';
+        resultDiv.style.display = 'block';
+        loadingSpinner.style.display = 'none';
+        form.style.opacity = '1';
+    }
+});
+</script>
+
+<style>
+/* 增强的减重计划专属样式 */
+.plan-summary-card {
+    background: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden;
+}
+
+.plan-summary-card .summary-header {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--primary-color);
+    color: white;
+}
+
+.plan-summary-card .summary-header i {
+    margin-right: var(--spacing-sm);
+    font-size: 1.2rem;
+}
+
+.plan-summary-card .summary-content {
+    padding: var(--spacing-md);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--light-gray);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.summary-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.summary-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--spacing-md);
+}
+
+.summary-details {
+    flex-grow: 1;
+}
+
+.summary-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.summary-value {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.meal-plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.meal-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.meal-card:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.meal-card-header {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--primary-light);
+    color: white;
+}
+
+.meal-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--spacing-md);
+}
+
+.meal-title {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.calorie-badge {
+    background: var(--accent-color);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.meal-card-content {
+    padding: var(--spacing-md);
+}
+
+.ingredient-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ingredient-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ingredient-list li:last-child {
+    border-bottom: none;
+}
+
+.ingredient-list li i {
+    color: var(--primary-color);
+    margin-right: 8px;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.nutrition-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--spacing-sm);
+    background: var(--light-gray);
+    border-radius: 8px;
+}
+
+.nutrition-item i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.nutrition-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.nutrition-value {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.exercise-plan-card,
+.health-tips-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--primary-color);
+    color: white;
+}
+
+.card-header i {
+    margin-right: var(--spacing-md);
+    font-size: 1.2rem;
+}
+
+.exercise-content {
+    padding: var(--spacing-md);
+}
+
+.exercise-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.exercise-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--light-gray);
+    border-radius: 8px;
+    margin-bottom: var(--spacing-md);
+    transition: var(--transition);
+}
+
+.exercise-item:last-child {
+    margin-bottom: 0;
+}
+
+.exercise-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--spacing-md);
+}
+
+.tip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+}
+
+.tip-card {
+    background: var(--light-gray);
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    transition: var(--transition);
+}
+
+.tip-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--spacing-md);
+    flex-shrink: 0;
+}
+
+/* 移除旧样式避免冲突 */
+.nutrition-pie-chart,
+.pie-container,
+.nutrition-legend {
+    display: none;
+}
+</style>
+{% endblock %}

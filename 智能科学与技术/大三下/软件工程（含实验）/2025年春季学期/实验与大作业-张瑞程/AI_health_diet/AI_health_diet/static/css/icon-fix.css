@@ -1,0 +1,33 @@
+/* 
+ * Icon positioning fix
+ * This CSS ensures icons are properly centered in circular containers
+ */
+
+.feature-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.feature-icon-wrapper i {
+  font-size: 2rem;
+  color: white;
+  /* Fix for FontAwesome icons being perfectly centered */
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  display: block !important;
+  line-height: 1 !important;
+  height: auto !important;
+  width: auto !important;
+} 

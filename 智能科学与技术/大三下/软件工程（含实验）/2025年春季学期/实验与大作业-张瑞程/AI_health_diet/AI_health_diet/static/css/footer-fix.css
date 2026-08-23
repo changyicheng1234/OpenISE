@@ -1,0 +1,173 @@
+/* 页脚布局修复 */
+.footer {
+    background-color: #263238;
+    color: #fff;
+    padding: 3rem 0 1rem 0;
+    margin-top: 3rem;
+    clear: both;
+    position: relative;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    gap: 30px;
+}
+
+.footer-info {
+    min-width: 250px;
+    max-width: 350px;
+    margin-bottom: 2rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.footer-logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.footer-desc {
+    color: #ccc;
+    margin-bottom: 1.5rem;
+    max-width: 100%; /* 允许使用全部可用宽度 */
+    text-align: center; /* 文本居中 */
+    line-height: 1.5; /* 合适的行高 */
+    word-break: keep-all; /* 尽量避免在单词之间换行 */
+    word-wrap: break-word; /* 如果必须换行，确保单词完整换行 */
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.footer-column {
+    min-width: 160px;
+    margin-bottom: 1.5rem;
+}
+
+.footer-column h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+}
+
+.footer-column h3::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-light);
+    margin-top: 8px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: #ccc;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-column a:hover {
+    color: #fff;
+    transform: translateX(3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #999;
+    font-size: 0.9rem;
+}
+
+/* 修复移动端页脚布局 */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-info {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .footer-logo {
+        justify-content: center;
+    }
+    
+    .footer-desc {
+        max-width: 100%;
+        padding: 0 15px; /* 添加左右内边距，防止文本紧贴屏幕边缘 */
+        text-align: center; /* 确保在移动端也居中 */
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .footer-nav {
+        width: 100%;
+        justify-content: space-around;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-nav {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .footer-column {
+        text-align: center;
+    }
+    
+    .footer-column h3::after {
+        margin: 8px auto 0;
+    }
+}

@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+<style>
+    /* 修复输入框内文本位置问题 */
+    #economicalForm input[type="text"],
+    #economicalForm input[type="number"] {
+        padding: 12px 15px;  /* 上下左右都有适当的内边距 */
+        text-indent: 0;      /* 防止文本缩进 */
+        box-sizing: border-box;  /* 确保padding不会改变元素大小 */
+        font-size: 16px;     /* 调整字体大小，避免iOS缩放 */
+        line-height: 1.5;    /* 确保文本垂直居中 */
+        width: 100%;         /* 确保宽度一致 */
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    /* 输入框获得焦点时的效果 */
+    #economicalForm input[type="text"]:focus,
+    #economicalForm input[type="number"]:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+    }
+    
+    /* 确保placeholder文本也有适当样式 */
+    #economicalForm input::placeholder {
+        color: #aaa;
+        opacity: 0.8;
+    }
+    
+    /* 强制覆盖可能的冲突样式 */
+    #economicalForm .form-control {
+        padding: 12px 15px !important;
+    }
+    
+    /* 提高表单组的间距 */
+    #economicalForm .form-group {
+        margin-bottom: 20px;
+    }
+    
+    /* 标签样式优化 */
+    #economicalForm label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="container">
+    <div class="card main-card animate-slideInUp">
+        <div class="feature-intro">
+            <div class="feature-icon-wrapper">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <h2>经济型饮食推荐</h2>
+            <p class="intro-text">
+                根据您的预算和所在地，我们为您提供营养均衡且经济实惠的一日三餐推荐。
+                优先选择低成本、易获取的食材，并附上省钱小贴士，助您健康饮食更省钱。
+            </p>
+        </div>
+        
+        <form id="economicalForm" class="styled-form">
+            <div class="form-row">
+                <div class="form-group animate-slideInLeft delay-100">
+                    <label for="budget"><i class="fas fa-money-bill-wave"></i> 每日饮食预算（元）</label>
+                    <input type="number" id="budget" name="budget" required placeholder="如：30" step="0.01" class="form-control">
+                    <small class="form-hint">设置合理的每日饮食预算</small>
+                </div>
+                <div class="form-group animate-slideInRight delay-100">
+                    <label for="location"><i class="fas fa-map-marker-alt"></i> 所在地</label>
+                    <input type="text" id="location" name="location" required placeholder="如：上海" class="form-control">
+                    <small class="form-hint">有助于推荐当地食材</small>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group animate-slideInLeft delay-200">
+                    <label for="health_goal"><i class="fas fa-bullseye"></i> 健康目标</label>
+                    <input type="text" id="health_goal" name="health_goal" placeholder="如：减重、增肌、控制血糖" class="form-control">
+                </div>
+                <div class="form-group animate-slideInRight delay-200">
+                    <label for="dietary_preferences"><i class="fas fa-utensils"></i> 饮食偏好</label>
+                    <input type="text" id="dietary_preferences" name="dietary_preferences" placeholder="如：低脂、高蛋白、素食" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-buttons animate-fadeIn delay-300">
+                <button type="submit" class="btn btn-primary btn-animated">
+                    <i class="fas fa-calculator"></i> 获取经济饮食推荐
+                </button>
+            </div>
+        </form>
+
+        <!-- 加载动画 -->
+        <div class="loading-container" id="loadingSpinner" style="display: none;">
+            <div class="loader loader-lg"></div>
+            <p class="loading-text">正在为您智能规划经济型饮食方案...</p>
+            <p class="loading-subtext">优先考虑营养均衡与经济实惠的食材组合</p>
+        </div>
+
+        <div id="economicalResult" class="result-container reveal" style="display: none;"></div>
+    </div>
+    
+    <!-- 功能亮点 -->
+    <div class="feature-highlights">
+        <div class="highlight-card reveal">
+            <div class="highlight-icon">
+                <i class="fas fa-piggy-bank"></i>
+            </div>
+            <h3>省钱不省营养</h3>
+            <p>智能算法规划最佳食材搭配，实现营养均衡的同时降低食材支出</p>
+        </div>
+        
+        <div class="highlight-card reveal">
+            <div class="highlight-icon">
+                <i class="fas fa-shopping-basket"></i>
+            </div>
+            <h3>当季食材优先</h3>
+            <p>根据您所在地区推荐当季蔬果，新鲜美味价格更优惠</p>
+        </div>
+        
+        <div class="highlight-card reveal">
+            <div class="highlight-icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3>实用省钱小贴士</h3>
+            <p>提供食材选购、保存与烹饪小技巧，让您的食物利用率最大化</p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('economicalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const resultDiv = document.getElementById('economicalResult');
+
+    // 显示加载动画
+    form.style.opacity = '0.5';
+    loadingSpinner.style.display = 'flex';
+    resultDiv.style.display = 'none';
+
+    const data = {
+        budget: document.getElementById('budget').value,
+        location: document.getElementById('location').value,
+        health_goal: document.getElementById('health_goal').value,
+        dietary_preferences: document.getElementById('dietary_preferences').value
+    };
+
+    // 添加用户配置信息（如果存在）
+    const userProfile = localStorage.getItem('userProfile');
+    if (userProfile) {
+        const profile = JSON.parse(userProfile);
+        Object.assign(data, profile);
+    }
+
+    try {
+        const response = await fetch('/economical', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        console.log('前端接收的 JSON 数据:', result); // 调试前端接收的数据
+
+        if (result.error) {
+            resultDiv.innerHTML = `<p class="error-text">${result.error}</p>`;
+            resultDiv.style.display = 'block';
+            loadingSpinner.style.display = 'none';
+            form.style.opacity = '1';
+            return;
+        }
+
+        // 创建推荐结果HTML
+        let economicalHtml = '<div class="recommendations-wrapper">';
+
+        // 处理三餐推荐
+        ['早餐推荐', '午餐推荐', '晚餐推荐'].forEach(mealType => {
+            const mealData = result[mealType] || {};
+            const foods = Array.isArray(mealData['推荐食材']) ? mealData['推荐食材'] : [];
+            economicalHtml += `
+                <div class="meal-recommendation-card">
+                    <div class="meal-header">
+                        <h3>${mealType}</h3>
+                    </div>
+                    <div class="meal-content">
+                        <div class="recommendation-section">
+                            <h4><i class="fas fa-carrot"></i> 推荐食材</h4>
+                            <ul>
+                                ${foods.length > 0 ? 
+                                    foods.map(item => `<li><i class="fas fa-check-circle"></i> ${item.name || '未知食材'} (${item.quantity || '未知份量'})</li>`).join('') : 
+                                    '<li>暂无推荐食材</li>'}
+                            </ul>
+                        </div>
+                        <div class="recommendation-section">
+                            <h4><i class="fas fa-money-bill-wave"></i> 预计费用</h4>
+                            <p>${mealData['预计费用'] != null ? mealData['预计费用'] + ' 元' : '暂无费用信息'}</p>
+                        </div>
+                        <div class="recommendation-section">
+                            <h4><i class="fas fa-heartbeat"></i> 营养价值</h4>
+                            <p>${mealData['营养价值'] || '暂无营养信息'}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // 添加省钱建议
+        const savingTips = Array.isArray(result['省钱建议']) ? result['省钱建议'] : [];
+        if (savingTips.length > 0) {
+            economicalHtml += `
+                <div class="nutrition-advice-card">
+                    <h3><i class="fas fa-piggy-bank"></i> 省钱建议</h3>
+                    <ul>
+                        ${savingTips.map(tip => `<li><i class="fas fa-check"></i> ${tip}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // 添加总费用
+        economicalHtml += `
+            <div class="nutrition-advice-card">
+                <h3><i class="fas fa-calculator"></i> 总费用</h3>
+                <p>${result['总费用'] != null ? result['总费用'] + ' 元' : '暂无总费用信息'}</p>
+            </div>
+        `;
+
+        economicalHtml += '</div>';
+
+        // 显示结果
+        resultDiv.innerHTML = economicalHtml;
+        resultDiv.style.display = 'block';
+        resultDiv.classList.add('fade-in');
+
+        // 隐藏加载动画
+        loadingSpinner.style.display = 'none';
+        form.style.opacity = '1';
+        
+        // 平滑滚动到结果
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (error) {
+        console.error('前端错误:', error);
+        resultDiv.innerHTML = '<p class="error-text">获取经济型饮食推荐失败，请稍后重试</p>';
+        resultDiv.style.display = 'block';
+        loadingSpinner.style.display = 'none';
+        form.style.opacity = '1';
+    }
+});
+</script>
+{% endblock %}

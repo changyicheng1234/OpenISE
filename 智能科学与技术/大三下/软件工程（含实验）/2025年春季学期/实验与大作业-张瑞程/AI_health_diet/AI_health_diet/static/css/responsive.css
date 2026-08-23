@@ -1,0 +1,221 @@
+/* 响应式调整 */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+    
+    .features {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    
+    .meal-plan-grid,
+    .meal-analysis-grid,
+    .stats-grid,
+    .nutrition-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-xxl: 1.75rem;
+        --font-size-xl: 1.4rem;
+        --font-size-lg: 1.15rem;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .nav-brand {
+        margin-bottom: 1rem;
+    }
+    
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+    
+    .nav-menu.active {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-menu.active .nav-item {
+        margin: 0.5rem 0;
+    }
+    
+    .page-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .page-description {
+        font-size: 1rem;
+    }
+    
+    .hero {
+        padding: 3rem 1.5rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .nutrition-grid,
+    .nutrition-analysis-wrapper,
+    .meal-analysis-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .feature-card h2 {
+        font-size: 1.3rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .meal-card,
+    .tip-card,
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+    
+    .plan-summary-card .summary-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .meal-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .meal-title .calorie-badge {
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .feature-card {
+        margin: 0 1rem;
+    }
+    
+    .hero {
+        padding: 2rem 1rem;
+        margin: 0 1rem 2rem 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .page-header {
+        padding: 2rem 1rem;
+    }
+    
+    .feature-intro {
+        padding: 1.5rem 1rem;
+    }
+    
+    .styled-form {
+        padding: 1rem;
+    }
+    
+    .nutrition-item,
+    .stat-card {
+        padding: 0.8rem;
+    }
+    
+    .stat-icon,
+    .meal-icon,
+    .summary-icon,
+    .exercise-icon,
+    .tip-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .nutrition-grid {
+        gap: 0.5rem;
+    }
+    
+    .loading-container {
+        padding: 1rem;
+    }
+    
+    .notification {
+        max-width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+    }
+}
+
+/* 响应式表格样式 */
+@media (max-width: 600px) {
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .result-container {
+        padding: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) {
+    .hover-lift:hover,
+    .hover-grow:hover {
+        transform: none;
+    }
+    
+    .btn-animated:after {
+        display: none;
+    }
+    
+    /* 增大触摸目标尺寸 */
+    button,
+    select,
+    .nav-menu a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}

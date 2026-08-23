@@ -1,0 +1,205 @@
+/* 
+ * Home Hero Section Styles
+ * Provides styles for the full-screen hero section on the homepage
+ */
+
+/* Fallback background gradient if image is missing - 只在图片真正加载失败时应用 */
+.fullscreen-hero .hero-background.image-load-error {
+  background: linear-gradient(135deg, #2E7D32, #81C784);
+  animation: gradientShift 15s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Feature icon fallback styles */
+.feature-icon-fallback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(76, 175, 80, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon-fallback i {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+}
+
+/* Additional hero section adjustments */
+.fullscreen-hero {
+  margin-top: -20px; /* Remove any gap between navbar and hero */
+}
+
+/* Ensure highlight text has appropriate styling */
+.highlight {
+  color: #81C784;
+  position: relative;
+  font-weight: 700;
+}
+
+/* Scroll arrow improvements */
+.scroll-indicator {
+  z-index: 10;
+}
+
+/* Hero content adjustments for better visibility */
+@media (max-width: 768px) {
+  .fullscreen-hero {
+    min-height: 600px;
+  }
+  
+  .scroll-indicator {
+    bottom: 1rem;
+  }
+}
+
+/* Enhanced animations for scroll-based elements */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-on-scroll.animate-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.fade-in-up.animate-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1 {
+  transition-delay: 0.2s;
+}
+
+.delay-2 {
+  transition-delay: 0.4s;
+}
+
+.delay-3 {
+  transition-delay: 0.6s;
+}
+
+.delay-4 {
+  transition-delay: 0.8s;
+}
+
+.delay-5 {
+  transition-delay: 1s;
+}
+
+/* Button hover animation */
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-animated::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn-animated:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+/* Hero text enhancements */
+.hero-text-line {
+  overflow: hidden;
+  display: inline-block;
+}
+
+/* Media queries refinements */
+@media (max-width: 768px) {
+  .fullscreen-hero {
+    min-height: 600px;
+  }
+  
+  .scroll-indicator {
+    bottom: 1rem;
+  }
+  
+  .animate-on-scroll {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+}
+
+/* 修复顶部白线问题 */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+html {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.navbar {
+    margin: 0 !important;
+    padding: 0.8rem 2rem !important;
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.nav-menu {
+    border: none !important;
+}
+
+.nav-menu a::after,
+.nav-link::after {
+    display: none !important;
+    content: none !important;
+    height: 0 !important;
+} 

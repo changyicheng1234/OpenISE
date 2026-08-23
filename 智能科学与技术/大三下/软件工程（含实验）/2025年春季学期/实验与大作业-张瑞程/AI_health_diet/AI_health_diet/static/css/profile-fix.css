@@ -1,0 +1,453 @@
+/**
+ * 个人健康信息页面专用样式
+ * 用于优化个人信息页面的UI和用户体验
+ */
+
+/* 整体容器样式 */
+.profile-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* 表单容器卡片 */
+.profile-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* 头部区域 */
+.profile-header {
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(to right, var(--primary-color), #2196F3);
+  color: white;
+}
+
+.profile-avatar {
+  display: none;
+}
+
+.profile-header h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  color: white;
+}
+
+.profile-header p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* 表单样式 */
+.profile-form {
+  padding: 2.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-weight: 500;
+  color: #444;
+  font-size: 1rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 15px;
+  color: #888;
+  font-size: 1.1rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.profile-input {
+  width: 100%;
+  padding: 0.9rem 1rem 0.9rem 2.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  height: 52px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.profile-input::placeholder {
+  color: #aaa;
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+select.profile-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23888' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* 修复选择框重叠问题 */
+select.profile-input option {
+  padding: 10px;
+  font-size: 1rem;
+}
+
+/* 按钮样式 */
+.profile-submit {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+  margin-top: 1rem;
+  min-width: 180px;
+}
+
+.profile-submit:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.25);
+}
+
+.profile-submit:active {
+  transform: translateY(0);
+}
+
+.profile-submit i {
+  margin-right: 0.8rem;
+  font-size: 1.1rem;
+}
+
+/* 健康数据结果容器 */
+.health-stats-container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+  margin-top: 3rem;
+}
+
+.health-stats-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 健康指标区域 */
+.stats-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.stats-header {
+  padding: 1.5rem;
+  background: linear-gradient(to right, var(--primary-color), #2196F3);
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.stats-header i {
+  margin-right: 1rem;
+  font-size: 1.4rem;
+}
+
+.stats-header h3 {
+  font-size: 1.4rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.stat-card {
+  padding: 1.8rem;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: flex-start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-color: rgba(76, 175, 80, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+
+.stat-icon i {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+}
+
+.stat-content {
+  flex-grow: 1;
+}
+
+.stat-content h4 {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0 0 0.8rem 0;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.7rem;
+}
+
+.stat-status {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.stat-description {
+  font-size: 0.9rem;
+  color: #777;
+  line-height: 1.6;
+}
+
+/* 营养素分配卡片 */
+#macroValue {
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.7;
+}
+
+#macroValue div {
+  margin-bottom: 0.6rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed #eee;
+}
+
+#macroValue div:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* 通知样式 */
+.notification {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 380px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  padding: 1.2rem;
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification-success {
+  border-left: 5px solid var(--success-color);
+}
+
+.notification-error {
+  border-left: 5px solid var(--error-color);
+}
+
+.notification-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.notification-success .notification-icon {
+  background-color: rgba(var(--success-color-rgb), 0.15);
+  color: var(--success-color);
+}
+
+.notification-error .notification-icon {
+  background-color: rgba(var(--error-color-rgb), 0.15);
+  color: var(--error-color);
+}
+
+.notification-icon i {
+  font-size: 1.1rem;
+}
+
+.notification-content {
+  flex-grow: 1;
+  font-size: 0.95rem;
+  color: #444;
+  padding-right: 0.5rem;
+  line-height: 1.5;
+}
+
+.notification-close {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #999;
+  border-radius: 50%;
+  padding: 0;
+  margin-left: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.notification-close:hover {
+  background-color: #f1f1f1;
+  color: #666;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 0;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .profile-form {
+    padding: 1.5rem;
+  }
+  
+  .profile-header {
+    padding: 1.5rem;
+  }
+  
+  .profile-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .notification {
+    left: 20px;
+    right: 20px;
+    max-width: none;
+    min-width: auto;
+  }
+  
+  .profile-submit {
+    width: 100%;
+    padding: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 0 1rem;
+    margin: 1rem auto;
+  }
+  
+  .stat-card {
+    padding: 1.2rem;
+  }
+  
+  .stat-icon {
+    width: 45px;
+    height: 45px;
+    margin-right: 1rem;
+  }
+  
+  .stat-icon i {
+    font-size: 1.2rem;
+  }
+  
+  .profile-input {
+    font-size: 0.95rem;
+    height: 48px;
+    padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+  }
+  
+  .form-group label {
+    font-size: 0.95rem;
+  }
+  
+  .input-wrapper i {
+    left: 12px;
+  }
+  
+  .stat-value {
+    font-size: 1.4rem;
+  }
+  
+  .stat-content h4 {
+    font-size: 1rem;
+  }
+} 

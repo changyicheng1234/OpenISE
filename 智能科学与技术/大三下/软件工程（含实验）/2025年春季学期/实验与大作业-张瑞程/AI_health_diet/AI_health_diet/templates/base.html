@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI健康饮食助手 - 为您提供个性化饮食建议和健康膳食计划">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>AI健康饮食助手 - {% block title %}健康饮食，科学生活{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/page-transitions.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/feature-cards-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home-cards-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home-hero.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile-fix-overlay.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recommend-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recommend-fix-overlay.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analyze-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analyze-fix-overlay.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nutrition-overview-enhanced.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/meal-analysis-enhanced.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/economical-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/economical-fix-overlay.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/weight-loss-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/weight-loss-fix-overlay.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/background-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/icon-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/alignment-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/image-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/button-fix.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logo.png') }}">
+    <style>
+        /* 修复导航栏顶部白线和空隙 */
+        body {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+        html {
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            margin-top: 0 !important;
+            border-top: none !important;
+            border-bottom: none !important;
+        }
+        /* 修复主体内容与导航栏的空隙 */
+        .main-content {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        /* 修复首页英雄区与导航栏的连接 */
+        .fullscreen-hero {
+            margin-top: -1px !important;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为当前页面导航项添加active类
+            const currentUrl = window.location.pathname;
+            document.querySelectorAll('.nav-menu .nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentUrl) {
+                    link.classList.add('active');
+                    link.closest('.nav-item').classList.add('active');
+                }
+            });
+            
+            // 移动端菜单切换
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                    document.body.classList.toggle('menu-open'); // 防止滚动
+                });
+            }
+            
+            // 点击导航链接后，关闭移动端菜单
+            document.querySelectorAll('.nav-menu .nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768 && navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                        document.body.classList.remove('menu-open');
+                    }
+                });
+            });
+            
+            // 滚动时添加阴影效果到导航栏
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 10) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+            });
+            
+            // 添加动画类到可见元素
+            const animatedElements = document.querySelectorAll('.reveal');
+            if (animatedElements.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                        }
+                    });
+                }, {threshold: 0.1});
+                
+                animatedElements.forEach(el => {
+                    observer.observe(el);
+                });
+            }
+            
+            // 添加页面过渡动画
+            document.body.classList.add('page-loaded');
+        });    </script>
+</head>
+<body class="page-{{ request.endpoint }}" style="margin:0; padding:0; border:none;">    <!-- 页面顶部导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="nav-brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="AI健康饮食助手" class="logo">
+                <span class="brand-text">AI健康饮食助手</span>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <div class="mobile-menu-toggle" aria-label="打开菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <!-- 导航菜单 -->
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-home"></i> <span>首页</span></a></li>
+                <li class="nav-item"><a href="{{ url_for('profile') }}" class="nav-link"><i class="fas fa-user"></i> <span>个人信息</span></a></li>
+                <li class="nav-item"><a href="{{ url_for('recommend') }}" class="nav-link"><i class="fas fa-utensils"></i> <span>推荐食谱</span></a></li>
+                <li class="nav-item"><a href="{{ url_for('analyze') }}" class="nav-link"><i class="fas fa-chart-pie"></i> <span>分析三餐</span></a></li>
+                <li class="nav-item"><a href="{{ url_for('recipe') }}" class="nav-link"><i class="fas fa-book-open"></i> <span>生成菜谱</span></a></li>
+                <li class="nav-item"><a href="{{ url_for('takeout') }}" class="nav-link"><i class="fas fa-shopping-bag"></i> <span>外卖推荐</span></a></li>
+                <li class="nav-item"><a href="{{ url_for('economical') }}" class="nav-link"><i class="fas fa-coins"></i> <span>经济饮食</span></a></li>
+                <li class="nav-item"><a href="{{ url_for('weight_loss') }}" class="nav-link"><i class="fas fa-weight"></i> <span>减肥计划</span></a></li>
+            </ul>
+        </div>
+    </nav>    <!-- 页面主体内容 -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    <div class="clearfix" style="clear: both;"></div>
+    <!-- 页面底部区域 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                    <span>AI健康饮食助手</span>
+                </div>
+                <p class="footer-desc"><span style="white-space: nowrap;">您的私人健康饮食顾问，让每一餐都充满活力与健康</span></p>
+                <div class="social-links">
+                    <a href="javascript:void(0);" onclick="showShareModal('weixin')" title="微信" class="social-icon"><i class="fab fa-weixin"></i></a>
+                    <a href="javascript:void(0);" onclick="showShareModal('weibo')" title="微博" class="social-icon"><i class="fab fa-weibo"></i></a>
+                    <a href="https://github.com" target="_blank" title="Github" class="social-icon"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-nav">
+                <div class="footer-column">
+                    <h3>功能导航</h3>
+                    <ul>
+                        <li><a href="{{ url_for('recommend') }}">推荐食谱</a></li>
+                        <li><a href="{{ url_for('analyze') }}">分析三餐</a></li>
+                        <li><a href="{{ url_for('recipe') }}">生成菜谱</a></li>
+                        <li><a href="{{ url_for('takeout') }}">外卖推荐</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>实用工具</h3>
+                    <ul>
+                        <li><a href="{{ url_for('profile') }}">个人健康信息</a></li>
+                        <li><a href="{{ url_for('economical') }}">经济饮食方案</a></li>
+                        <li><a href="{{ url_for('weight_loss') }}">减重计划</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="javascript:void(0);" onclick="showAboutModal('team')">团队介绍</a></li>
+                        <li><a href="javascript:void(0);" onclick="showAboutModal('terms')">使用条款</a></li>
+                        <li><a href="javascript:void(0);" onclick="showAboutModal('privacy')">隐私政策</a></li>
+                        <li><a href="javascript:void(0);" onclick="showAboutModal('contact')">联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 AI健康饮食助手 – SYSU | 以科技改变饮食，以健康丰富生活</p>
+        </div>
+    </footer>
+      <!-- 回到顶部按钮 -->
+    <div class="back-to-top" id="backToTop" title="回到顶部">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- 页面加载指示器 -->
+    <div class="page-transition" id="pageTransition">
+        <div class="transition-loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"/>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- 关于我们模态框 -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modalContent">
+                <!-- 内容将通过JS动态添加 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页面脚本 -->
+    <script>
+        // 回到顶部功能
+        const backToTopBtn = document.getElementById('backToTop');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // 页面加载过渡
+        window.addEventListener('load', function() {
+            document.getElementById('pageTransition').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('pageTransition').style.display = 'none';
+            }, 500);
+        });
+        
+        // 页面链接预加载
+        document.querySelectorAll('a').forEach(link => {
+            if (link.hostname === window.location.hostname) {
+                link.addEventListener('click', (e) => {
+                    // 忽略锚点链接（页面内部导航）
+                    if (link.getAttribute('href').startsWith('#') || link.classList.contains('scroll-btn')) {
+                        return; // 不处理页面内部导航
+                    }
+                    
+                    if (!e.ctrlKey && !e.metaKey) { // 不在新标签页打开
+                        e.preventDefault();
+                        document.getElementById('pageTransition').style.display = 'flex';
+                        document.getElementById('pageTransition').style.opacity = '1';
+                        
+                        setTimeout(() => {
+                            window.location = link.href;
+                        }, 300);
+                    }
+                });
+            }
+        });
+        
+        // 添加关于我们模态框功能
+        function showAboutModal(type) {
+            const modal = document.getElementById('aboutModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // 根据类型设置内容
+            let content = '';
+            
+            switch(type) {
+                case 'team':
+                    content = `
+                        <h2>团队介绍</h2>
+                        <p>AI健康饮食助手由一支热爱健康饮食的技术团队创建。我们致力于将先进的人工智能技术与专业的营养学知识结合，为用户提供个性化的饮食建议。</p>
+                        <p>我们的团队包括AI工程师、营养学专家和用户体验设计师，共同努力打造最适合中国用户的智能饮食助手。</p>
+                    `;
+                    break;
+                    
+                case 'terms':
+                    content = `
+                        <h2>使用条款</h2>
+                        <p>欢迎使用AI健康饮食助手。请在使用我们的服务前仔细阅读以下条款：</p>
+                        <ul>
+                            <li>本服务提供的饮食建议仅供参考，不构成医疗建议。</li>
+                            <li>用户提供的个人信息仅用于生成个性化饮食建议，我们将严格保护您的隐私。</li>
+                            <li>禁止任何形式的商业抄袭或复制本平台内容。</li>
+                            <li>我们保留随时更新和修改服务内容的权利。</li>
+                        </ul>
+                    `;
+                    break;
+                    
+                case 'privacy':
+                    content = `
+                        <h2>隐私政策</h2>
+                        <p>我们重视您的隐私保护，承诺采取合理措施保护您提供的个人信息：</p>
+                        <ul>
+                            <li>我们仅收集必要的个人信息用于提供个性化饮食建议。</li>
+                            <li>您的健康数据存储在安全的环境中，未经您的许可不会共享给第三方。</li>
+                            <li>我们使用加密技术保护数据传输和存储安全。</li>
+                            <li>您有权随时查询、修改或删除您的个人信息。</li>
+                        </ul>
+                    `;
+                    break;
+                    
+                case 'contact':
+                    content = `
+                        <h2>联系我们</h2>
+                        <p>如有任何问题、建议或合作意向，欢迎通过以下方式联系我们：</p>
+                        <ul>
+                            <li>邮箱：contact@aihealthdiet.com</li>
+                            <li>电话：400-123-4567</li>
+                            <li>工作时间：周一至周五 9:00-18:00</li>
+                        </ul>
+                        <p>我们会在1-3个工作日内回复您的咨询。</p>
+                    `;
+                    break;
+                    
+                default:
+                    content = '<p>内容加载失败，请重试。</p>';
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+            
+            // 添加关闭按钮功能
+            document.querySelector('.close-modal').onclick = function() {
+                modal.style.display = 'none';
+            };
+            
+            // 点击模态框外部关闭
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
+        
+        // 添加社交媒体分享功能
+        function showShareModal(platform) {
+            const modal = document.getElementById('aboutModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            let content = '';
+            const pageTitle = document.title;
+            const pageUrl = window.location.href;
+            
+            switch(platform) {
+                case 'weixin':
+                    content = `
+                        <h2>微信分享</h2>
+                        <div class="qrcode-container">
+                            <div class="qrcode-placeholder">
+                                <i class="fab fa-weixin fa-4x" style="color: #07C160; margin-bottom: 15px;"></i>
+                                <p>扫描二维码分享到微信（仅作展示）</p>
+                            </div>
+                        </div>
+                        <p class="text-center">或复制以下链接分享：</p>
+                        <div class="share-link">
+                            <input type="text" value="${pageUrl}" readonly />
+                            <button onclick="copyShareLink(this)">复制</button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'weibo':
+                    const weiboUrl = `https://service.weibo.com/share/share.php?url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(pageTitle)}`;
+                    content = `
+                        <h2>微博分享</h2>
+                        <p>点击下方按钮分享到微博：</p>
+                        <div class="share-button-container">
+                            <a href="${weiboUrl}" target="_blank" class="share-button weibo-share">
+                                <i class="fab fa-weibo"></i> 分享到微博
+                            </a>
+                        </div>
+                        <p>或复制以下链接分享：</p>
+                        <div class="share-link">
+                            <input type="text" value="${pageUrl}" readonly />
+                            <button onclick="copyShareLink(this)">复制</button>
+                        </div>
+                    `;
+                    break;
+                    
+                default:
+                    content = '<p>分享功能暂不可用，请稍后重试。</p>';
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+            
+            // 添加关闭按钮功能
+            document.querySelector('.close-modal').onclick = function() {
+                modal.style.display = 'none';
+            };
+            
+            // 点击模态框外部关闭
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
+        
+        // 复制分享链接
+        function copyShareLink(button) {
+            const input = button.previousElementSibling;
+            input.select();
+            document.execCommand('copy');
+            
+            const originalText = button.textContent;
+            button.textContent = '已复制';
+            button.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '';
+            }, 2000);
+        }
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

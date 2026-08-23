@@ -1,0 +1,163 @@
+/* 导航栏修复 */
+.navbar-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+/* 修复顶部白线问题 */
+.navbar {
+    border-top: none !important;
+    border-bottom: none !important;
+    background: linear-gradient(to right, #388E3C, #4CAF50) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    padding: 0.8rem 0 !important;
+    margin: 0 !important;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-grow: 1;
+    border-bottom: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* 移除导航项的下划线 */
+.nav-menu a::after,
+.nav-link::after {
+    display: none !important;
+}
+
+.nav-item {
+    white-space: nowrap;
+    border-bottom: none !important;
+    margin: 0 3px !important;
+    position: relative;
+}
+
+.nav-link {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    border-bottom: none !important;
+    color: white !important;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    font-weight: 500;
+}
+
+.nav-link i {
+    margin-right: 6px;
+    display: inline-block !important;
+    font-size: 0.95rem;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* 增加右侧间距，使整体向左移动 */
+}
+
+.nav-brand .brand-text {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: white;
+    margin-left: 4px; /* 减少左侧间距，使文字更靠近logo */
+    white-space: nowrap; /* 防止文本换行 */
+    display: inline-block; /* 保持为一个整体 */
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+/* 适配移动设备的导航 */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.8rem 1rem !important;
+    }
+    
+    .navbar-container {
+        position: relative;
+    }
+    
+    .nav-brand {
+        margin-right: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-brand .brand-text {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        letter-spacing: -0.02em; /* 在小屏幕上稍微调整字间距 */
+        position: relative;
+        left: -4px; /* 向左移动文字，保持与桌面版一致 */
+    }
+    
+    .mobile-menu-toggle {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--primary-dark);
+        flex-direction: column;
+        padding: 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        display: none;
+    }
+    
+    .nav-menu.active {
+        display: flex;
+        padding: 10px 0;
+    }
+    
+    .nav-item {
+        width: 100%;
+        margin: 0 !important;
+    }
+    
+    .nav-link {
+        width: 100%;
+        text-align: left;
+        padding: 12px 20px;
+        border-radius: 0;
+        justify-content: flex-start;
+    }
+
+    .nav-link i {
+        width: 20px;
+        margin-right: 10px;
+        text-align: center;
+    }
+}

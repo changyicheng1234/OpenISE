@@ -1,0 +1,199 @@
+/**
+ * 首页卡片布局修复
+ */
+
+/* 主页卡片容器 */
+.index-features-container {
+    margin: 3rem auto;
+    max-width: 1280px;
+    padding: 0 1rem;
+}
+
+/* 清除浮动 */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* 功能卡片网格 */
+.index-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* 单个卡片样式 */
+.index-feature-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.index-feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* 功能标签 */
+.index-feature-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--accent-color);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 5;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* 图标容器 */
+.index-feature-icon-container {
+    background-color: #f8f9fa;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.index-feature-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(76, 175, 80, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.index-feature-card:hover .index-feature-icon {
+    transform: scale(1.1);
+}
+
+.index-feature-icon i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+/* 卡片内容 */
+.index-feature-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+}
+
+.index-feature-title {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    position: relative;
+    font-weight: 600;
+}
+
+.index-feature-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-light);
+    border-radius: 3px;
+}
+
+.index-feature-description {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* 按钮样式 */
+.index-feature-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white !important;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.25);
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+.index-feature-button:hover {
+    background-color: var(--primary-dark);
+    box-shadow: 0 6px 12px rgba(76, 175, 80, 0.35);
+    transform: translateY(-2px);
+}
+
+.index-feature-button .button-text {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+.index-feature-button i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.index-feature-button:hover i {
+    transform: translateX(5px);
+}
+
+/* 响应式设计 */
+@media (max-width: 991px) {
+    .index-features-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .index-feature-content {
+        min-height: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .index-features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+    
+    .index-feature-card {
+        max-width: 100%;
+    }
+    
+    .index-feature-content {
+        min-height: 180px;
+    }
+} 

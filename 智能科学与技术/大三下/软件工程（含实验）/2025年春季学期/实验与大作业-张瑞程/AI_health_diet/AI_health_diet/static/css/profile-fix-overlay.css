@@ -1,0 +1,110 @@
+/**
+ * 修复个人信息页面表单元素重叠问题的CSS样式
+ */
+
+/* 确保表单容器有足够空间 */
+.profile-form {
+  overflow: visible !important;
+}
+
+/* 确保表单行正确换行和间距 */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* 确保下拉菜单不会重叠 */
+select.profile-input {
+  position: relative;
+  z-index: 5;
+}
+
+/* 提升下拉菜单项的可读性 */
+select.profile-input option {
+  padding: 12px 16px;
+  background-color: white;
+  color: #333;
+  font-size: 16px;
+}
+
+/* 确保图标不与输入内容重叠 */
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block !important;
+  width: 20px;
+  text-align: center;
+}
+
+/* 确保所有图标正确显示 */
+.fa, .fas, .far, .fab {
+  display: inline-block !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  line-height: 1 !important;
+}
+
+/* 增加输入框的内部填充，确保文本与图标不会重叠 */
+.profile-input {
+  padding-left: 48px !important;
+  font-size: 16px !important;
+  height: auto !important;
+  min-height: 52px !important;
+  line-height: 1.5 !important;
+  box-sizing: border-box !important;
+}
+
+/* 修复移动端布局问题 */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.8rem;
+  }
+  
+  .input-wrapper i {
+    left: 14px;
+  }
+  
+  .profile-input {
+    padding-left: 42px !important;
+  }
+}
+
+/* 确保健康指标卡片布局正确 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* 确保通知消息不会重叠 */
+.notification {
+  position: fixed;
+  z-index: 9999;
+  max-width: 400px;
+  width: auto;
+}
+
+/* 修复统计卡片中的图标 */
+.stat-icon i {
+  display: inline-block !important;
+}
+
+/* 确保提交按钮中的图标正常显示 */
+.profile-submit i {
+  display: inline-block !important;
+  margin-right: 0.8rem;
+} 

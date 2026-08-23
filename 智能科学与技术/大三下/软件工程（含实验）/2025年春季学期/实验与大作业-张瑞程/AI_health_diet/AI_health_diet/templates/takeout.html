@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card main-card animate-slideInUp">
+        <div class="feature-intro">
+            <div class="feature-icon-wrapper">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <h2>外卖健康推荐</h2>
+            <p class="intro-text">
+                输入您想吃的外卖类型、口味偏好、预算和所在地区，我们将为您推荐适合的健康外卖菜品。
+                让您在享受便利的同时，也能兼顾健康饮食。
+            </p>
+        </div>
+        <form id="takeoutForm" class="styled-form">
+            <div class="form-group">
+                <label for="takeout_type">外卖类型与口味</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-utensils"></i>
+                    <input type="text" id="takeout_type" required placeholder="请输入想吃的外卖类型以及口味喜好">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price">外卖价格</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-coins"></i>
+                    <input type="text" id="price" required placeholder="请输入期望的外卖价格">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="location">所在地区</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="location" required placeholder="请输入您的所在地区，以便推荐合适的外卖菜品">
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary btn-animated">
+                    <i class="fas fa-search"></i> 获取推荐
+                </button>
+            </div>
+        </form>
+
+        <!-- 加载动画 -->
+        <div class="loading-container" id="loadingSpinner">
+            <div class="loader loader-lg"></div>
+            <p class="loading-text">正在生成外卖推荐...</p>
+        </div>
+    </div>
+
+    <div id="takeout-result" class="takeout-card animate-fadeIn" style="display: none;">
+        <div class="takeout-header">
+            <h2>健康外卖推荐</h2>
+            <div class="takeout-info">
+                <span class="takeout-info-item" id="takeout-type-tag">
+                    <i class="fas fa-utensils"></i> <span id="takeout-type-value">中餐</span>
+                </span>
+                <span class="takeout-info-item" id="takeout-price-tag">
+                    <i class="fas fa-tag"></i> <span id="takeout-price-value">¥50-80</span>
+                </span>
+                <span class="takeout-info-item" id="takeout-location-tag">
+                    <i class="fas fa-map-marker-alt"></i> <span id="takeout-location-value">北京</span>
+                </span>
+            </div>
+        </div>
+        <div class="takeout-content">
+            <div class="takeout-section dishes-section animate-slideInUp delay-100">
+                <div class="section-header">
+                    <i class="fas fa-utensils"></i>
+                    <h3>推荐外卖菜品</h3>
+                </div>
+                <ul id="dishes-list" class="dishes-list"></ul>
+            </div>
+
+            <div class="takeout-section restaurants-section animate-slideInUp delay-150">
+                <div class="section-header">
+                    <i class="fas fa-store"></i>
+                    <h3>推荐商家</h3>
+                </div>
+                <ul id="restaurants-list" class="restaurants-list"></ul>
+            </div>
+
+            <div class="takeout-section nutrition-section animate-slideInUp delay-200">
+                <div class="section-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>营养分析</h3>
+                </div>
+                <div id="nutrition-info" class="nutrition-info"></div>
+            </div>
+
+            <div class="takeout-section tips-section animate-slideInUp delay-300">
+                <div class="section-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>健康建议</h3>
+                </div>
+                <div id="health-tips" class="health-tips">
+                    <p>选择外卖时注意以下几点：</p>
+                    <ul>
+                        <li>尽量选择蒸煮烤类的菜品，少选油炸食物</li>
+                        <li>多选择蔬菜，增加膳食纤维摄入</li>
+                        <li>控制主食分量，避免过量进食</li>
+                        <li>少点含糖饮料，可以选择无糖茶或白水</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('takeoutForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const loadingSpinner = document.getElementById('loadingSpinner');
+  const resultDiv = document.getElementById('takeout-result');
+  const dishesList = document.getElementById('dishes-list');
+  const restaurantsList = document.getElementById('restaurants-list');
+  const nutritionInfo = document.getElementById('nutrition-info');
+
+  document.getElementById('takeout-type-value').textContent = document.getElementById('takeout_type').value;
+  document.getElementById('takeout-price-value').textContent = document.getElementById('price').value;
+  document.getElementById('takeout-location-value').textContent = document.getElementById('location').value;
+
+  dishesList.innerHTML = '';
+  restaurantsList.innerHTML = '';
+  nutritionInfo.innerHTML = '';
+
+  try {
+    form.style.opacity = '0.5';
+    loadingSpinner.style.display = 'flex';
+    resultDiv.style.display = 'none';
+
+    const response = await fetch('/takeout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        takeout_type: document.getElementById('takeout_type').value,
+        price: document.getElementById('price').value,
+        location: document.getElementById('location').value
+      })
+    });
+
+    console.log('响应状态:', response.status);
+    if (!response.ok) {
+      throw new Error(`服务器返回错误: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    console.log('前端接收到的完整 API 数据:', JSON.stringify(result, null, 2));
+    
+    if (result.error) {
+      throw new Error(result.error);
+    }
+
+    // 菜品列表
+    if (Array.isArray(result.dishes_list) && result.dishes_list.length > 0) {
+      console.log('渲染菜品列表:', result.dishes_list);
+      dishesList.innerHTML = result.dishes_list
+        .map(dish => {
+          const name = dish.name || '未知菜品';
+          // 修复价格字段中可能存在的重复"约"字
+          let price = dish.price || '未知价格';
+          price = price.replace(/约约/g, '约');
+          return `<li class="dish-item">
+            <div class="dish-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="dish-content">
+              <span class="dish-name">${name}</span>
+              <span class="dish-price">${price}</span>
+            </div>
+          </li>`;
+        })
+        .join('');
+    } else {
+      console.log('菜品列表无效或为空:', result.dishes_list);
+      dishesList.innerHTML = '<li class="no-data">暂无推荐菜品</li>';
+    }
+
+    // 商家列表
+    if (result.restaurants && result.restaurants.length > 0) {
+      console.log('渲染商家列表:', result.restaurants);
+      restaurantsList.innerHTML = result.restaurants
+        .map(restaurant => {
+          const name = restaurant.name || '未知店铺';
+          const address = restaurant.address || '未知地址';
+          const rating = restaurant.rating != null ? Number(restaurant.rating).toFixed(1) : '未知';
+          return `<li class="restaurant-item">
+            <div class="restaurant-icon"><i class="fas fa-store"></i></div>
+            <div class="restaurant-content">
+              <span class="restaurant-name">${name}</span>
+              <span class="restaurant-address">${address}</span>
+              <span class="restaurant-rating">评分: ${rating}/5</span>
+            </div>
+          </li>`;
+        })
+        .join('');
+    } else {
+      console.log('商家列表无效或为空:', result.restaurants);
+      restaurantsList.innerHTML = '<li class="no-data">暂无推荐商家</li>';
+    }
+
+    // 营养分析
+    const nutrition = result.nutritional_analysis;
+    if (nutrition && typeof nutrition === 'object') {
+      console.log('渲染营养分析:', nutrition);
+      let nutritionHtml = '<div class="nutrition-grid">';
+      const items = {
+        calories: { name: '热量', icon: 'fa-fire', unit: '千卡' },
+        protein: { name: '蛋白质', icon: 'fa-drumstick-bite', unit: '克' },
+        fat: { name: '脂肪', icon: 'fa-oil-can', unit: '克' },
+        carbs: { name: '碳水化合物', icon: 'fa-bread-slice', unit: '克' }
+      };
+
+      Object.entries(items).forEach(([key, data]) => {
+        if (key in nutrition) {
+          const value = nutrition[key];
+          let displayValue = value;
+          if (typeof value === 'string') {
+            const numMatch = value.match(/\d+(\.\d+)?/);
+            if (numMatch) {
+              displayValue = numMatch[0];
+            }
+          }
+          nutritionHtml += `
+            <div class="nutrient-card">
+              <div class="nutrient-icon">
+                <i class="fas ${data.icon}"></i>
+              </div>
+              <div class="nutrient-value">${displayValue}</div>
+              <div class="nutrient-name">${data.name} ${data.unit}</div>
+            </div>
+          `;
+        }
+      });
+
+      nutritionHtml += '</div><div class="nutrition-details">';
+      Object.entries(nutrition).forEach(([key, value]) => {
+        const knownNutrient = items[key];
+        if (!knownNutrient) {
+          nutritionHtml += `
+            <div class="nutrition-item">
+              <span class="nutrition-label">${key}</span>
+              <span class="nutrition-value">${value}</span>
+            </div>
+          `;
+        }
+      });
+      nutritionHtml += '</div>';
+      nutritionInfo.innerHTML = nutritionHtml;
+    } else {
+      console.log('营养分析无效或为空:', nutrition);
+      nutritionInfo.innerHTML = '<p class="no-data">暂无营养数据</p>';
+    }
+
+    resultDiv.style.display = 'block';
+    console.log('resultDiv 样式:', resultDiv.style.display);
+
+  } catch (error) {
+    console.error('获取外卖推荐失败:', error);
+    console.error('错误类型:', error.name);
+    console.error('错误消息:', error.message);
+    console.error('错误堆栈:', error.stack);
+    alert(`获取外卖推荐失败: ${error.message}`);
+    dishesList.innerHTML = '<li class="no-data">生成失败</li>';
+    restaurantsList.innerHTML = '<li class="no-data">生成失败</li>';
+    nutritionInfo.innerHTML = '<p class="no-data">生成失败</p>';
+  } finally {
+    loadingSpinner.style.display = 'none';
+    form.style.opacity = '1';
+  }
+});
+</script>
+{% endblock %}

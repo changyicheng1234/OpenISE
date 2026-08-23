@@ -1,0 +1,48 @@
+/* 按钮居中样式修复 */
+
+/* 通用表单按钮居中 */
+form .btn[type="submit"],
+form button[type="submit"] {
+    display: block;
+    margin: 2rem auto 1rem;
+    min-width: 180px;
+    text-align: center;
+}
+
+/* 为不在专门按钮容器中的按钮创建居中容器 */
+form button[type="submit"]:not(.form-buttons button) {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 按钮容器居中样式 */
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+/* 表单提交区域的通用样式 */
+.form-submit-area {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+/* 确保profile页面的提交按钮也居中 */
+.profile-submit {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+}
+
+/* 确保移动设备上按钮仍然居中 */
+@media (max-width: 768px) {
+    form .btn[type="submit"],
+    form button[type="submit"] {
+        width: 80%;
+        max-width: 300px;
+    }
+}

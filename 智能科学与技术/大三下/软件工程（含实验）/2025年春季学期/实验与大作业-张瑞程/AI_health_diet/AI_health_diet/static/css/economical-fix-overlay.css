@@ -1,0 +1,115 @@
+/**
+ * 经济型饮食页面的重叠修复
+ */
+
+/* 确保图标正确显示 */
+.fa, .fas, .far, .fab {
+  display: inline-block !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  line-height: 1 !important;
+}
+
+/* 修复header部分 */
+.feature-header i,
+.feature-intro i,
+.form-group label i,
+.btn i,
+.highlight-icon i {
+  display: inline-block !important;
+}
+
+/* 修复表单按钮 */
+.btn-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-primary i {
+  margin-right: 0.8rem !important;
+}
+
+/* 确保表单元素不重叠 */
+.styled-form {
+  overflow: visible !important;
+}
+
+.form-row {
+  overflow: visible !important;
+}
+
+.form-group {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+/* 修复加载动画显示 */
+.loading-container {
+  display: none;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.loading-container.active {
+  display: flex !important;
+}
+
+/* 修复结果卡片间距和布局 */
+.recommendations-wrapper {
+  display: grid !important;
+  gap: 1.5rem !important;
+}
+
+.meal-recommendation-card {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.meal-header {
+  display: block !important;
+}
+
+.recommendation-section {
+  margin-bottom: 1.5rem !important;
+}
+
+.recommendation-section h4 {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* 修复功能亮点卡片图标 */
+.highlight-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 确保省钱建议卡片正确显示 */
+.nutrition-advice-card {
+  grid-column: 1 / -1 !important;
+}
+
+/* 响应式修复 */
+@media (max-width: 768px) {
+  .form-row {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  
+  .recommendations-wrapper {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .feature-highlights {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .btn {
+    width: 100% !important;
+  }
+} 

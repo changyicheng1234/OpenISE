@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* 按钮样式 */
+    #clearFormButton {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        color: #666;
+        font-size: 0.9rem;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+    }
+    
+    #clearFormButton:hover {
+        background-color: #e9ecef;
+        color: #dc3545;
+    }
+    
+    #clearFormButton i {
+        margin-right: 5px;
+    }
+    
+    #showStatsButton {
+        background-color: #fff;
+        border: 1px solid #4CAF50;
+        color: #4CAF50;
+        font-size: 1rem;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #showStatsButton:hover {
+        background-color: #4CAF50;
+        color: white;
+    }
+    
+    #showStatsButton i {
+        margin-right: 8px;
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <h2>个人健康信息</h2>
+            <p>填写您的基本健康信息，我们将为您计算BMI指数、基础代谢率等健康指标，帮助提供更精准的饮食建议。</p>
+        </div>
+        
+        <form id="profileForm" class="profile-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="gender">性别</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-venus-mars"></i>
+                        <select id="gender" class="profile-input" required>
+                            <option value="">请选择</option>
+                            <option value="male">男</option>
+                            <option value="female">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="age">年龄</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-birthday-cake"></i>
+                        <input type="number" id="age" class="profile-input" required min="1" max="120" placeholder="请输入年龄">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="height">身高 (cm)</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-ruler-vertical"></i>
+                        <input type="number" id="height" class="profile-input" required min="100" max="250" placeholder="请输入身高">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="weight">体重 (kg)</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-weight"></i>
+                        <input type="number" id="weight" class="profile-input" required min="20" max="200" placeholder="请输入体重">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="activity">活动水平</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-running"></i>
+                        <select id="activity" class="profile-input" required>
+                            <option value="">请选择</option>
+                            <option value="low">久坐不运动</option>
+                            <option value="moderate">适度运动（每周1-3次）</option>
+                            <option value="active">经常运动（每周3-5次）</option>
+                            <option value="very_active">高强度运动（每周6-7次）</option>
+                            <option value="extra_active">专业运动员水平</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="health_goal">健康目标</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-bullseye"></i>
+                        <select id="health_goal" class="profile-input" required>
+                            <option value="">请选择</option>
+                            <option value="lose_weight">减重</option>
+                            <option value="maintain">保持健康</option>
+                            <option value="gain_muscle">增肌</option>
+                        </select>
+                    </div>            </div>
+            </div>
+            
+            <div class="form-buttons">
+                <button type="submit" class="profile-submit">
+                    <i class="fas fa-save"></i> 保存信息
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div id="healthStats" class="health-stats-container" style="display: none;">
+        <div class="stats-card">
+            <div class="stats-header">
+                <i class="fas fa-chart-bar"></i>
+                <h3>健康指标分析</h3>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>BMI指数</h4>
+                        <div class="stat-value" id="bmiValue"></div>
+                        <div class="stat-status" id="bmiStatus"></div>
+                        <div class="stat-description">体质指数 (BMI) 是评估体重是否标准的常用指标</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>基础代谢率</h4>
+                        <div class="stat-value" id="bmrValue"></div>
+                        <div class="stat-description">您身体在完全休息状态下维持基本生命活动所需的能量</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>每日建议摄入热量</h4>
+                        <div class="stat-value" id="calorieValue"></div>
+                        <div class="stat-description">根据您的个人情况和健康目标，推荐的每日热量摄入量</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>营养素分配建议</h4>
+                        <div class="stat-value" id="macroValue">
+                            <div id="proteinValue"></div>
+                            <div id="fatValue"></div>
+                            <div id="carbsValue"></div>
+                        </div>
+                        <div class="stat-description">根据您的健康目标，推荐的蛋白质、脂肪和碳水化合物摄入比例</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+        gender: document.getElementById('gender').value,
+        age: parseInt(document.getElementById('age').value),
+        height: parseInt(document.getElementById('height').value),
+        weight: parseInt(document.getElementById('weight').value),
+        activity: document.getElementById('activity').value,
+        health_goal: document.getElementById('health_goal').value
+    };
+
+    try {
+        // 添加加载效果
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+        submitBtn.disabled = true;
+        
+        const response = await fetch('/save_profile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        // 恢复按钮状态
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> 保存信息';
+        submitBtn.disabled = false;
+        
+        // 显示健康指标
+        document.getElementById('bmiValue').textContent = `${result.bmi.toFixed(1)}`;
+        document.getElementById('bmiStatus').innerHTML = getBMIStatusWithIcon(result.bmi);
+        document.getElementById('bmrValue').textContent = `${result.bmr.toFixed(0)} 千卡/天`;
+        document.getElementById('calorieValue').textContent = `${result.daily_calories.toFixed(0)} 千卡/天`;
+        
+        // 显示营养素分配
+        if (result.daily_nutrition) {
+            document.getElementById('proteinValue').innerHTML = `蛋白质: ${Math.round(result.daily_nutrition.protein)}克 (${Math.round(result.nutrition_ratio.protein * 100)}%)`;
+            document.getElementById('fatValue').innerHTML = `脂肪: ${Math.round(result.daily_nutrition.fat)}克 (${Math.round(result.nutrition_ratio.fat * 100)}%)`;
+            document.getElementById('carbsValue').innerHTML = `碳水: ${Math.round(result.daily_nutrition.carbs)}克 (${Math.round(result.nutrition_ratio.carbs * 100)}%)`;
+        }
+        
+        // 用动画效果显示健康指标
+        const statsContainer = document.getElementById('healthStats');
+        statsContainer.style.display = 'block';
+        
+        // 添加可见性类以触发动画
+        setTimeout(() => {
+            statsContainer.classList.add('visible');
+        }, 100);
+        
+        // 保存到 localStorage
+        localStorage.setItem('userProfile', JSON.stringify(formData));
+        localStorage.setItem('healthStats', JSON.stringify(result));
+        
+        // 显示成功通知
+        showNotification('信息已保存成功！您可以继续使用其他功能了。', 'success');
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('信息保存失败，请稍后重试', 'error');
+    }
+});
+
+function getBMIStatusWithIcon(bmi) {
+    let status, icon, color;
+    
+    if (bmi < 18.5) {
+        status = '体重偏低';
+        icon = 'arrow-down';
+        color = 'var(--info-color)';
+    } else if (bmi < 24) {
+        status = '正常范围';
+        icon = 'check-circle';
+        color = 'var(--success-color)';
+    } else if (bmi < 28) {
+        status = '超重';
+        icon = 'exclamation-circle';
+        color = 'var(--warning-color)';
+    } else {
+        status = '肥胖';
+        icon = 'exclamation-triangle';
+        color = 'var(--error-color)';
+    }
+    
+    return `<span style="color: ${color}"><i class="fas fa-${icon}"></i> ${status}</span>`;
+}
+
+// 显示通知消息
+function showNotification(message, type = 'info') {
+    // 删除可能已存在的通知
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    // 创建通知元素
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    
+    // 设置图标
+    let icon = 'info-circle';
+    if (type === 'success') icon = 'check-circle';
+    if (type === 'error') icon = 'exclamation-circle';
+    if (type === 'warning') icon = 'exclamation-triangle';
+    
+    // 设置内容
+    notification.innerHTML = `
+        <div class="notification-icon">
+            <i class="fas fa-${icon}"></i>
+        </div>
+        <div class="notification-content">
+            ${message}
+        </div>
+        <button class="notification-close">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // 添加到页面
+    document.body.appendChild(notification);
+    
+    // 触发显示动画
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // 添加关闭按钮事件
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    });
+    
+    // 自动关闭
+    setTimeout(() => {
+        if (document.body.contains(notification)) {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 5000);
+}
+
+// 页面加载时检查是否应该恢复保存的数据
+window.addEventListener('load', () => {
+    // 添加一个"清空表单"按钮
+    const profileForm = document.getElementById('profileForm');
+    const formHeader = profileForm.querySelector('.form-row:first-child');
+    
+    const clearButton = document.createElement('div');
+    clearButton.className = 'clear-form-button';
+    clearButton.innerHTML = '<button type="button" id="clearFormButton"><i class="fas fa-trash-alt"></i> 清空表单</button>';
+    clearButton.style.marginLeft = 'auto';
+    clearButton.style.marginRight = '8px';
+    clearButton.style.marginBottom = '15px';
+    
+    profileForm.insertBefore(clearButton, formHeader);
+    
+    // 为清空按钮添加事件处理
+    document.getElementById('clearFormButton').addEventListener('click', () => {
+        // 清空表单
+        profileForm.reset();
+        
+        // 隐藏健康指标区域
+        const statsContainer = document.getElementById('healthStats');
+        statsContainer.style.display = 'none';
+        statsContainer.classList.remove('visible');
+        
+        // 清除本地存储的数据
+        localStorage.removeItem('userProfile');
+        localStorage.removeItem('healthStats');
+        
+        showNotification('个人信息已清空', 'info');
+    });
+    
+    // 检查是否有保存的数据
+    const savedProfile = localStorage.getItem('userProfile');
+    if (savedProfile) {
+        try {
+            const profile = JSON.parse(savedProfile);
+            
+            // 如果用户明确点击了表单中的某个输入框，则恢复所有数据
+            let hasUserInteracted = false;
+            const formInputs = profileForm.querySelectorAll('input, select');
+            
+            formInputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    if (!hasUserInteracted) {
+                        hasUserInteracted = true;
+                        
+                        // 恢复表单数据
+                        Object.keys(profile).forEach(key => {
+                            const element = document.getElementById(key);
+                            if (element) element.value = profile[key];
+                        });
+                        
+                        // 显示通知
+                        showNotification('已恢复您之前保存的个人信息', 'info');
+                    }
+                }, { once: true });
+            });
+            
+            // 如果有保存的健康数据，准备好数据但不立即显示
+            const savedStats = localStorage.getItem('healthStats');
+            if (savedStats) {
+                const stats = JSON.parse(savedStats);
+                
+                // 为"显示健康指标"按钮创建处理函数
+                const showStatsHandler = () => {
+                    document.getElementById('bmiValue').textContent = `${stats.bmi.toFixed(1)}`;
+                    document.getElementById('bmiStatus').innerHTML = getBMIStatusWithIcon(stats.bmi);
+                    document.getElementById('bmrValue').textContent = `${stats.bmr.toFixed(0)} 千卡/天`;
+                    document.getElementById('calorieValue').textContent = `${stats.daily_calories.toFixed(0)} 千卡/天`;
+                    
+                    // 显示营养素分配
+                    if (stats.daily_nutrition) {
+                        document.getElementById('proteinValue').innerHTML = `蛋白质: ${Math.round(stats.daily_nutrition.protein)}克 (${Math.round(stats.nutrition_ratio.protein * 100)}%)`;
+                        document.getElementById('fatValue').innerHTML = `脂肪: ${Math.round(stats.daily_nutrition.fat)}克 (${Math.round(stats.nutrition_ratio.fat * 100)}%)`;
+                        document.getElementById('carbsValue').innerHTML = `碳水: ${Math.round(stats.daily_nutrition.carbs)}克 (${Math.round(stats.nutrition_ratio.carbs * 100)}%)`;
+                    }
+                    
+                    // 显示健康指标区域
+                    const statsContainer = document.getElementById('healthStats');
+                    statsContainer.style.display = 'block';
+                    statsContainer.classList.add('visible');
+                };
+                
+                // 在用户开始填写表单时添加"显示健康指标"按钮
+                formInputs.forEach(input => {
+                    input.addEventListener('change', () => {
+                        if (!document.querySelector('#showStatsButton')) {
+                            const showStatsButton = document.createElement('button');
+                            showStatsButton.id = 'showStatsButton';
+                            showStatsButton.className = 'btn btn-outline';
+                            showStatsButton.innerHTML = '<i class="fas fa-chart-bar"></i> 显示之前的健康指标';
+                            showStatsButton.style.marginTop = '20px';
+                            showStatsButton.style.display = 'block';
+                            showStatsButton.style.margin = '20px auto';
+                            
+                            showStatsButton.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                showStatsHandler();
+                                showStatsButton.remove();
+                            });
+                            
+                            // 将按钮添加到表单底部
+                            const formButtons = document.querySelector('.form-buttons');
+                            formButtons.appendChild(showStatsButton);
+                        }
+                    }, { once: true });
+                });
+            }
+        } catch (error) {
+            console.error('Error parsing saved profile:', error);
+            // 删除无效的数据
+            localStorage.removeItem('userProfile');
+            localStorage.removeItem('healthStats');
+        }
+    }
+});
+</script>
+{% endblock %}

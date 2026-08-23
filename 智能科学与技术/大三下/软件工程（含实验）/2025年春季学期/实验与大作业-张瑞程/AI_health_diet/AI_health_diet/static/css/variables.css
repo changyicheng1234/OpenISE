@@ -1,0 +1,90 @@
+/**
+ * 全局CSS变量
+ * 定义网站的颜色、间距、阴影等变量
+ */
+
+:root {
+  /* 主色调 */
+  --primary-color: #4CAF50;
+  --primary-light: #81C784;
+  --primary-dark: #388E3C;
+  
+  /* 强调色 */
+  --accent-color: #FF6D00;
+  --accent-light: #FF9E40;
+  --accent-dark: #E65100;
+  
+  /* 状态颜色 */
+  --success-color: #4CAF50;
+  --info-color: #2196F3;
+  --warning-color: #FF9800;
+  --error-color: #F44336;
+  
+  /* 文本颜色 */
+  --text-color: #333333;
+  --text-secondary: #666666;
+  --text-light: #999999;
+  --text-on-primary: #FFFFFF;
+  --text-on-accent: #FFFFFF;
+  
+  /* 背景颜色 */
+  --background-color: #F5F7F9;
+  --card-bg-color: #FFFFFF;
+  --light-gray: #F5F5F5;
+  --border-color: #EEEEEE;
+  
+  /* 间距 */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  
+  /* 边框 */
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-width: 1px;
+  
+  /* 阴影 */
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.15);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
+  
+  /* 字体大小 */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
+  
+  /* 过渡效果 */
+  --transition: all 0.3s ease;
+  
+  /* 容器宽度 */
+  --container-width: 1200px;
+}
+
+/* 暗色主题 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #81C784;
+    --primary-light: #A5D6A7;
+    --primary-dark: #4CAF50;
+    
+    --text-color: #F5F5F5;
+    --text-secondary: #D0D0D0;
+    --text-light: #B0B0B0;
+    
+    --background-color: #121212;
+    --card-bg-color: #1E1E1E;
+    --light-gray: #2A2A2A;
+    --border-color: #333333;
+    
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+} 

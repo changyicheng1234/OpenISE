@@ -1,0 +1,119 @@
+/**
+ * 个性化食谱推荐页面的重叠修复
+ */
+
+/* 确保表单元素不重叠 */
+.styled-form {
+  overflow: visible !important;
+}
+
+/* 修复图标显示问题 */
+.feature-icon-wrapper i,
+.input-with-icon i,
+.btn i,
+.overview-header i,
+.meal-icon i,
+.recommendation-section h4 i,
+.advice-card-header i,
+.food-list li:before {
+  display: inline-block !important;
+}
+
+/* 确保所有图标正确显示 */
+.fa, .fas, .far, .fab {
+  display: inline-block !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  line-height: 1 !important;
+}
+
+/* 修复输入框图标定位 */
+.input-with-icon i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  font-size: 1.1rem;
+  z-index: 4;
+  pointer-events: none;
+  width: 20px;
+  text-align: center;
+}
+
+/* 修复文本域图标位置 */
+.textarea-icon i {
+  top: 20px;
+  transform: none;
+}
+
+/* 输入框样式 */
+#health_goal, #dietary_preferences {
+  padding-left: 48px !important;
+  font-size: 16px !important;
+  height: auto !important;
+  min-height: 52px !important;
+  line-height: 1.5 !important;
+  box-sizing: border-box !important;
+}
+
+/* 文本域样式 */
+#lifestyle {
+  padding-left: 48px !important;
+  padding-top: 12px !important;
+  font-size: 16px !important;
+  min-height: 120px !important;
+  line-height: 1.5 !important;
+  box-sizing: border-box !important;
+  resize: vertical;
+}
+
+/* 修复按钮样式 */
+.btn-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-primary i {
+  margin-right: 0.8rem !important;
+}
+
+/* 确保卡片不重叠 */
+.meal-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* 修复餐饮卡片样式 */
+.meal-card {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.meal-card-header {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.meal-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 修复响应式布局 */
+@media (max-width: 768px) {
+  .meal-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  #health_goal, #dietary_preferences, #lifestyle {
+    padding-left: 42px !important;
+  }
+  
+  .input-with-icon i {
+    left: 14px;
+  }
+} 
