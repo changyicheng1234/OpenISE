@@ -40,7 +40,7 @@ Issue、PR、纠错、资料、选课/考试攻略，完全欢迎！来自大家
 - [@changyicheng1234](https://github.com/changyicheng1234) 项目负责人
 - [@Timlin15](https://github.com/Timlin15) 项目负责人
 - [@McAtr1Xx](https://github.com/McAtr1Xx) 主要贡献者
-- [@siyuan-cai](https://github.com/siyuan-cai) 主要贡献者
+- [@cai-siyuan](https://github.com/cai-siyuan) 主要贡献者
 - [@Eileen276](https://github.com/Eileen276) 主要维护者
 - [@yky666](https://github.com/yky666) 主要维护者
 ……以及电脑前的您！
